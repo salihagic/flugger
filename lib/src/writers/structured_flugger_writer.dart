@@ -33,5 +33,6 @@ class StructuredFluggerWriter implements FluggerWriter {
         FluggerModelType.REQUEST => options.request.parent_folder_name.isNotEmpty ? options.request.parent_folder_name : 'request_models',
         FluggerModelType.RESPONSE => options.request.parent_folder_name.isNotEmpty ? options.request.parent_folder_name : 'response_models',
         FluggerModelType.SEARCH => options.request.parent_folder_name.isNotEmpty ? options.request.parent_folder_name : 'search_models',
+        FluggerModelType.MODEL => options.model.parent_folder_name.isNotEmpty ? options.model.parent_folder_name : 'models',
       };
 }

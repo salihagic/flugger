@@ -1,6 +1,6 @@
 import 'package:flugger/flugger.dart';
 
-class RequestModelFluggerGenerator extends ClassFluggerGenerator {
+class RequestModelFluggerGenerator extends ModelFluggerGenerator {
   RequestModelFluggerGenerator({
     required super.options,
   });
@@ -16,45 +16,6 @@ class RequestModelFluggerGenerator extends ClassFluggerGenerator {
     content += '${generateCopyWith(model)}\n';
     content += generateToJson(model);
     content += '}\n';
-
-    return content;
-  }
-
-  @override
-  String generateName(Model model) {
-    return 'class ${model.name} {';
-  }
-
-  @override
-  String generateCopyWith(Model model) {
-    var content = '';
-
-    content += '  ${model.name} copyWith({\n';
-    for (final property in model.properties) {
-      content += '    ${property.dataType.value}? ${property.name},\n';
-    }
-    content += '  }) {\n';
-    content += '    return ${model.name}(\n';
-    for (final property in model.properties) {
-      content += '      ${property.name}: ${property.name} ?? this.${property.name},\n';
-    }
-    content += '    );\n';
-    content += '  }\n';
-
-    return content;
-  }
-
-  @override
-  String generateToJson(Model model) {
-    var content = '';
-
-    content += '  Map<String, dynamic> toMap() {\n';
-    content += '    return <String, dynamic>{\n';
-    for (final property in model.properties) {
-      content += '      \'${property.name}\': ${property.name},\n';
-    }
-    content += '    };\n';
-    content += '  }\n';
 
     return content;
   }

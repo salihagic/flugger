@@ -10,6 +10,7 @@ class FluggerOptions {
   final ModelFluggerOptions request;
   final ModelFluggerOptions response;
   final ModelFluggerOptions search;
+  final ModelFluggerOptions model;
   final SwaggerFluggerOptions? swagger;
 
   FluggerOptions({
@@ -19,6 +20,7 @@ class FluggerOptions {
     required this.request,
     required this.response,
     required this.search,
+    required this.model,
     required this.swagger,
   });
 
@@ -30,6 +32,7 @@ class FluggerOptions {
       request: map['request'] != null ? ModelFluggerOptions.fromYamlMap(map['request']) : ModelFluggerOptions.initial(),
       response: map['response'] != null ? ModelFluggerOptions.fromYamlMap(map['response']) : ModelFluggerOptions.initial(),
       search: map['search'] != null ? ModelFluggerOptions.fromYamlMap(map['search']) : ModelFluggerOptions.initial(),
+      model: map['model'] != null ? ModelFluggerOptions.fromYamlMap(map['model']) : ModelFluggerOptions.initial(),
       swagger: map['swagger'] != null ? SwaggerFluggerOptions.fromYamlMap(map['swagger']) : null,
     );
   }

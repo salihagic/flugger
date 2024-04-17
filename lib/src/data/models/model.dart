@@ -33,7 +33,7 @@ class Model {
     bool isRootModel = true,
   ]) {
     final dataType = FluggerDataType.parse(map);
-    final modelType = FluggerModelType.parse(map);
+    final modelType = FluggerModelType.parse(name, options);
     final nameTree = name.split('.');
     final transformedName = isRootModel ? _transformName(nameTree.last, modelType, options) : nameTree.last;
     final namespace = _toSnakeCase(nameTree.length >= 2 ? nameTree[nameTree.length - 2] : '');
@@ -76,6 +76,7 @@ class Model {
       FluggerModelType.REQUEST => name.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix,
       FluggerModelType.RESPONSE => name.replaceAll(options.response.name_part_to_remove, '') + options.response.name_sufix,
       FluggerModelType.SEARCH => name.replaceAll(options.search.name_part_to_remove, '') + options.search.name_sufix,
+      FluggerModelType.MODEL => name.replaceAll(options.model.name_part_to_remove, '') + options.model.name_sufix,
     };
   }
 

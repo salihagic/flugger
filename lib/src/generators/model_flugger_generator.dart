@@ -1,9 +1,9 @@
 import 'package:flugger/flugger.dart';
 
-class ClassFluggerGenerator implements FluggerGenerator {
+class ModelFluggerGenerator implements FluggerGenerator {
   final FluggerOptions options;
 
-  ClassFluggerGenerator({
+  ModelFluggerGenerator({
     required this.options,
   });
 
@@ -40,7 +40,9 @@ class ClassFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
-  String generateName(Model model) => '// Name';
+  String generateName(Model model) {
+    return 'class ${model.name} {';
+  }
 
   String generateProperties(Model model) {
     var content = '';
@@ -66,7 +68,37 @@ class ClassFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
-  String generateCopyWith(Model model) => '// CopyWith';
+  String generateCopyWith(Model model) {
+    var content = '';
+
+    content += '  ${model.name} copyWith({\n';
+    for (final property in model.properties) {
+      content += '    ${property.dataType.value}? ${property.name},\n';
+    }
+    content += '  }) {\n';
+    content += '    return ${model.name}(\n';
+    for (final property in model.properties) {
+      content += '      ${property.name}: ${property.name} ?? this.${property.name},\n';
+    }
+    content += '    );\n';
+    content += '  }\n';
+
+    return content;
+  }
+
   String generateFromJson(Model model) => '// FromJson';
-  String generateToJson(Model model) => '// ToJson';
+
+  String generateToJson(Model model) {
+    var content = '';
+
+    content += '  Map<String, dynamic> toMap() {\n';
+    content += '    return <String, dynamic>{\n';
+    for (final property in model.properties) {
+      content += '      \'${property.name}\': ${property.name},\n';
+    }
+    content += '    };\n';
+    content += '  }\n';
+
+    return content;
+  }
 }

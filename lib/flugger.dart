@@ -36,5 +36,6 @@ class Flugger {
         FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(options: options),
         FluggerModelType.REQUEST => RequestModelFluggerGenerator(options: options),
         FluggerModelType.SEARCH => SearchModelFluggerGenerator(options: options),
+        FluggerModelType.MODEL => ModelFluggerGenerator(options: options),
       };
 }

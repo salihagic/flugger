@@ -1,6 +1,6 @@
 import 'package:flugger/flugger.dart';
 
-class ResponseModelFluggerGenerator extends ClassFluggerGenerator {
+class ResponseModelFluggerGenerator extends ModelFluggerGenerator {
   ResponseModelFluggerGenerator({
     required super.options,
   });
@@ -18,12 +18,4 @@ class ResponseModelFluggerGenerator extends ClassFluggerGenerator {
 
     return content;
   }
-
-  @override
-  String generateName(Model model) {
-    return 'class ${model.name}${options.response.name_sufix} {';
-  }
-
-  @override
-  String generateFromJson(Model model) => '// FromJson';
 }
