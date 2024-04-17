@@ -24,4 +24,4 @@ dev_dependencies:
 flutter:
 
 executables:
-  my_package: bin/my_package
+  my_package: bin/flugger

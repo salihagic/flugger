@@ -2,17 +2,18 @@
 
 import 'package:yaml/yaml.dart';
 
-class SwaggerGeneratorOptions {
+class SwaggerFluggerOptions {
   final String url;
-  final String? model_domain_prefix_to_remove;
+  final String model_domain_prefix_to_remove;
 
-  SwaggerGeneratorOptions({
+  SwaggerFluggerOptions({
     required this.url,
-    this.model_domain_prefix_to_remove,
+    required this.model_domain_prefix_to_remove,
   });
 
-  factory SwaggerGeneratorOptions.fromYamlMap(YamlMap map) {
-    return SwaggerGeneratorOptions(
+  @override
+  factory SwaggerFluggerOptions.fromYamlMap(YamlMap map) {
+    return SwaggerFluggerOptions(
       url: map['url'] as String,
       model_domain_prefix_to_remove: map['model_domain_prefix_to_remove'] ?? '',
     );
