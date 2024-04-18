@@ -20,11 +20,11 @@ class ModelFluggerGenerator implements FluggerGenerator {
 
     content += '${generateImports(model)}\n';
     content += '${generateName(model)}\n';
-    content += '${generateProperties(model)}\n\n';
-    content += '${generateConstructor(model)}\n\n';
-    content += '${generateCopyWith(model)}\n\n';
-    content += '${generateFromJson(model)}\n\n';
-    content += '${generateToJson(model)}\n';
+    content += '${generateProperties(model)}\n';
+    content += '${generateConstructor(model)}\n';
+    content += '${generateCopyWith(model)}\n';
+    content += '${generateFromJson(model)}\n';
+    content += generateToJson(model);
     content += '}\n';
 
     return content;
@@ -86,7 +86,19 @@ class ModelFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
-  String generateFromJson(Model model) => '// FromJson';
+  String generateFromJson(Model model) {
+    var content = '';
+
+    content += '  factory ${model.name}.fromMap(Map<String, dynamic> map) {\n';
+    content += '    return ${model.name}(\n';
+    for (final property in model.properties) {
+      content += '      ${property.name}: map.parseValue(\'${property.name}\'),\n';
+    }
+    content += '    );\n';
+    content += '  }\n';
+
+    return content;
+  }
 
   String generateToJson(Model model) {
     var content = '';

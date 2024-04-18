@@ -1,26 +1,19 @@
-import 'dart:io';
-
 import 'package:flugger/flugger.dart';
 
-class StructuredFluggerWriter implements FluggerWriter {
-  final FluggerOptions options;
-
+class StructuredFluggerWriter extends FluggerWriter {
   StructuredFluggerWriter({
-    required this.options,
+    required super.options,
   });
 
   @override
   Future<void> write(List<FluggerGeneratorResult> results) async {
+    await super.write(results);
+
     for (final result in results) {
-      final file = await File(
+      await writeToFileAndAddExport(
         '${options.destination_path_prefix}${_resolveParentFolder(result)}${result.model.fileName}',
-      ).create(recursive: true);
-
-      final fileConnectionSink = file.openWrite();
-
-      fileConnectionSink.write(result.content);
-
-      fileConnectionSink.close();
+        result.content,
+      );
     }
   }
 

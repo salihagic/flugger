@@ -1,10 +1,8 @@
 import 'package:flugger/flugger.dart';
 
-class OneFileFluggerWriter implements FluggerWriter {
-  final FluggerOptions options;
-
+class OneFileFluggerWriter extends FluggerWriter {
   OneFileFluggerWriter({
-    required this.options,
+    required super.options,
   });
 
   @override
