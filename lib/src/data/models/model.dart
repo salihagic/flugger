@@ -113,8 +113,6 @@ class Model {
     FluggerModelType modelType,
     FluggerOptions options,
   ) {
-    print('{$modelType} | ORIGINAL NAME: $name | NEW NAME: ${name.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix}');
-
     return switch (modelType) {
       FluggerModelType.REQUEST => name.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix,
       FluggerModelType.RESPONSE => name.replaceAll(options.response.name_part_to_remove, '') + options.response.name_sufix,
