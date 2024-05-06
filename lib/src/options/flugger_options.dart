@@ -32,10 +32,10 @@ class FluggerOptions {
       destination_path_prefix: map['destination_path_prefix'] ?? '',
       extensions_destination_path_prefix: map['extensions_destination_path_prefix'] ?? '',
       generic_imports: map['generic_imports']?.map<String>((x) => x as String).toList(),
-      request: map['request'] != null ? ModelFluggerOptions.fromYamlMap(map['request']) : ModelFluggerOptions.initial(),
-      response: map['response'] != null ? ModelFluggerOptions.fromYamlMap(map['response']) : ModelFluggerOptions.initial(),
-      search: map['search'] != null ? ModelFluggerOptions.fromYamlMap(map['search']) : ModelFluggerOptions.initial(),
-      model: map['model'] != null ? ModelFluggerOptions.fromYamlMap(map['model']) : ModelFluggerOptions.initial(),
+      request: map['request'] != null ? ModelFluggerOptions.fromYamlMap(map['request']) : ModelFluggerOptions.initialRequest(),
+      response: map['response'] != null ? ModelFluggerOptions.fromYamlMap(map['response']) : ModelFluggerOptions.initialResponse(),
+      search: map['search'] != null ? ModelFluggerOptions.fromYamlMap(map['search']) : ModelFluggerOptions.initialSearch(),
+      model: map['model'] != null ? ModelFluggerOptions.fromYamlMap(map['model']) : ModelFluggerOptions.initialModel(),
       swagger: map['swagger'] != null ? SwaggerFluggerOptions.fromYamlMap(map['swagger']) : null,
     );
   }

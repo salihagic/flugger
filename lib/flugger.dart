@@ -33,9 +33,9 @@ class Flugger {
       };
 
   FluggerGenerator _resolveModelGeneratorByModelType(FluggerModelType type) => switch (type) {
-        FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(options: options),
-        FluggerModelType.REQUEST => RequestModelFluggerGenerator(options: options),
-        FluggerModelType.SEARCH => SearchModelFluggerGenerator(options: options),
-        FluggerModelType.MODEL => ModelFluggerGenerator(options: options),
+        FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(options: options, modelOptions: options.response),
+        FluggerModelType.REQUEST => RequestModelFluggerGenerator(options: options, modelOptions: options.response),
+        FluggerModelType.SEARCH => SearchModelFluggerGenerator(options: options, modelOptions: options.response),
+        FluggerModelType.MODEL => ModelFluggerGenerator(options: options, modelOptions: options.response),
       };
 }

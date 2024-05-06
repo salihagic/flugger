@@ -2,9 +2,11 @@ import 'package:flugger/flugger.dart';
 
 class ModelFluggerGenerator implements FluggerGenerator {
   final FluggerOptions options;
+  final ModelFluggerOptions modelOptions;
 
   ModelFluggerGenerator({
     required this.options,
+    required this.modelOptions,
   });
 
   @override
@@ -21,10 +23,20 @@ class ModelFluggerGenerator implements FluggerGenerator {
     content += '${generateImports(model)}\n';
     content += '${generateName(model)}\n';
     content += '${generateProperties(model)}\n';
-    content += '${generateConstructor(model)}\n';
-    content += '${generateCopyWith(model)}\n';
-    content += '${generateFromJson(model)}\n';
-    content += generateToJson(model);
+    content += generateConstructor(model);
+
+    if (modelOptions.copyWith) {
+      content += '\n${generateCopyWith(model)}';
+    }
+
+    if (modelOptions.fromJson) {
+      content += '\n${generateFromJson(model)}';
+    }
+
+    if (modelOptions.toJson) {
+      content += '\n${generateToJson(model)}';
+    }
+
     content += '}\n';
 
     return content;
@@ -48,7 +60,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     var content = '';
 
     for (final property in model.properties) {
-      content += '  final ${property.dataType.value}${property.nullable ? '?' : ''} ${property.name};\n';
+      content += '  final ${property.type}${property.nullable ? '?' : ''} ${property.name};\n';
     }
 
     return content;
@@ -73,7 +85,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
 
     content += '  ${model.name} copyWith({\n';
     for (final property in model.properties) {
-      content += '    ${property.dataType.value}? ${property.name},\n';
+      content += '    ${property.type}? ${property.name},\n';
     }
     content += '  }) {\n';
     content += '    return ${model.name}(\n';

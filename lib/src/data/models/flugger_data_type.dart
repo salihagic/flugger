@@ -12,14 +12,18 @@ enum FluggerDataType {
 
   const FluggerDataType(this.value);
 
-  static FluggerDataType parse(Map<String, dynamic> map) => switch (map['type']?.toLowerCase()) {
-        'string' => FluggerDataType.STRING,
-        'int' => FluggerDataType.INT,
-        'double' => FluggerDataType.DOUBLE,
-        'boolean' => FluggerDataType.BOOL,
-        'list' => FluggerDataType.LIST,
-        'object' => FluggerDataType.OBJECT,
-        null => FluggerDataType.OBJECT,
-        _ => map['\$ref'].replaceAll('#/components/schemas/', '').split('.').last,
-      };
+  static FluggerDataType parse(Map<String, dynamic> map) {
+    final type = switch (map['type']?.toLowerCase()) {
+      'string' => FluggerDataType.STRING,
+      'int' => FluggerDataType.INT,
+      'integer' => FluggerDataType.INT,
+      'double' => FluggerDataType.DOUBLE,
+      'boolean' => FluggerDataType.BOOL,
+      'list' => FluggerDataType.LIST,
+      'array' => FluggerDataType.LIST,
+      _ => FluggerDataType.OBJECT,
+    };
+
+    return type;
+  }
 }

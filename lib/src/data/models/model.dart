@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flugger/flugger.dart';
 
 class Model {
@@ -8,10 +7,28 @@ class Model {
   final String fileName;
   final String? namespace;
   final FluggerDataType dataType;
+  final String? dataTypeObjectType;
   final FluggerDataType? templateDataType;
+  final String? templateDataTypeObjectType;
   final FluggerModelType modelType;
   final bool nullable;
   final List<Model> properties;
+
+  String get type {
+    if (dataType == FluggerDataType.OBJECT) {
+      return dataTypeObjectType ?? 'Object';
+    }
+
+    if (dataType == FluggerDataType.LIST) {
+      if (templateDataType == FluggerDataType.OBJECT) {
+        return 'List<${templateDataTypeObjectType ?? 'Object'}>';
+      }
+
+      return 'List<${templateDataType?.value ?? 'Object'}>';
+    }
+
+    return dataType.value;
+  }
 
   Model({
     required this.name,
@@ -20,7 +37,9 @@ class Model {
     required this.fileName,
     this.namespace,
     required this.dataType,
+    this.dataTypeObjectType,
     this.templateDataType,
+    this.templateDataTypeObjectType,
     required this.modelType,
     required this.nullable,
     required this.properties,
@@ -31,11 +50,20 @@ class Model {
     Map<String, dynamic> map,
     FluggerOptions options, [
     bool isRootModel = true,
+    FluggerModelType? pModelType,
   ]) {
     final dataType = FluggerDataType.parse(map);
-    final modelType = FluggerModelType.parse(name, options);
+    final dataTypeObjectName = map['\$ref']?.replaceAll('#/components/schemas/', '')?.split('.')?.last;
+
+    final templateDataType = dataType == FluggerDataType.LIST && map['items']?['type'] != null ? FluggerDataType.parse(map['items']?['type']) : null;
+    final templateDataTypeObjectType = dataType == FluggerDataType.LIST && map['items']?['\$ref'] != null ? map['items']['\$ref'].replaceAll('#/components/schemas/', '')?.split('.')?.last : null;
+
+    final modelType = pModelType ?? FluggerModelType.parse(name, options);
+    final transformedDataTypeObjectType = dataType == FluggerDataType.OBJECT ? _transformName(dataTypeObjectName ?? 'Object', modelType, options) : null;
+
     final nameTree = name.split('.');
     final transformedName = isRootModel ? _transformName(nameTree.last, modelType, options) : nameTree.last;
+
     final namespace = _toSnakeCase(nameTree.length >= 2 ? nameTree[nameTree.length - 2] : '');
     final fileName = '${_toSnakeCase(transformedName)}.dart';
 
@@ -46,9 +74,24 @@ class Model {
       fileName: fileName,
       namespace: namespace,
       dataType: dataType,
+      dataTypeObjectType: transformedDataTypeObjectType,
+      templateDataType: templateDataType,
+      templateDataTypeObjectType: templateDataTypeObjectType,
       modelType: modelType,
       nullable: map['nullable'] ?? false,
-      properties: map['properties']?.entries.map<Model>((entry) => Model.fromJson(entry.key, entry.value, options, false)).toList() ?? [],
+      properties: map['properties']
+              ?.entries
+              .map<Model>(
+                (entry) => Model.fromJson(
+                  entry.key,
+                  entry.value,
+                  options,
+                  false,
+                  modelType,
+                ),
+              )
+              .toList() ??
+          [],
     );
   }
 
@@ -70,7 +113,7 @@ class Model {
     FluggerModelType modelType,
     FluggerOptions options,
   ) {
-    log('ORIGINAL NAME: $name | NEW NAME: ${name.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix}');
+    print('{$modelType} | ORIGINAL NAME: $name | NEW NAME: ${name.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix}');
 
     return switch (modelType) {
       FluggerModelType.REQUEST => name.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix,
