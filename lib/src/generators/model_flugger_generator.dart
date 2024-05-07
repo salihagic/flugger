@@ -101,10 +101,21 @@ class ModelFluggerGenerator implements FluggerGenerator {
   String generateFromJson(Model model) {
     var content = '';
 
-    content += '  factory ${model.name}.fromMap(Map<String, dynamic> map) {\n';
+    content += '  factory ${model.name}.fromJson(Map<String, dynamic> json) {\n';
     content += '    return ${model.name}(\n';
     for (final property in model.properties) {
-      content += '      ${property.name}: map.parseValue(\'${property.name}\'),\n';
+      final parseMethod = switch (property.dataType) {
+        FluggerDataType.STRING => 'parseValue(\'${property.name}\')',
+        FluggerDataType.DATETIME => 'parseDate(\'${property.name}\')',
+        FluggerDataType.INT => 'parseValue(\'${property.name}\')',
+        FluggerDataType.DOUBLE => 'parseDouble(\'${property.name}\')',
+        FluggerDataType.BOOL => 'parseValue(\'${property.name}\')',
+        FluggerDataType.LIST => 'parseList(\'${property.name}\'${property.templateDataType != null ? ', ${property.type}.fromJson' : ''})',
+        FluggerDataType.ENUM => 'parseEnum(\'${property.name}\', ${property.type}.parse)',
+        FluggerDataType.OBJECT => 'parse(\'${property.name}\', ${property.type}.fromJson)',
+      };
+
+      content += '      ${property.name}: json.$parseMethod,\n';
     }
     content += '    );\n';
     content += '  }\n';
@@ -115,7 +126,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
   String generateToJson(Model model) {
     var content = '';
 
-    content += '  Map<String, dynamic> toMap() {\n';
+    content += '  Map<String, dynamic> toJson() {\n';
     content += '    return <String, dynamic>{\n';
     for (final property in model.properties) {
       content += '      \'${property.name}\': ${property.name},\n';
