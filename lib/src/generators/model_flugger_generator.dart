@@ -1,7 +1,12 @@
 import 'package:flugger/flugger.dart';
 
+/// General model generator that implements FluggerGenerator
+/// Generats output file for specific model and generates it's content based on the specified ModelFluggerOptions
 class ModelFluggerGenerator implements FluggerGenerator {
+  /// Used to fetch specified generic imports to be generated in the resulting file's content
   final FluggerOptions options;
+
+  /// Specifies what methods should be generated
   final ModelFluggerOptions modelOptions;
 
   ModelFluggerGenerator({
@@ -9,6 +14,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     required this.modelOptions,
   });
 
+  /// Main generator method that starts the content generation based on options and modelOptions
   @override
   FluggerGeneratorResult generate(Model model) {
     return FluggerGeneratorResult(
@@ -17,6 +23,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     );
   }
 
+  /// Generates the concrete content of the output file
   String generateContent(Model model) {
     var content = '';
 
@@ -42,6 +49,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
+  /// Generates imports on the top of the output file
   String generateImports(Model model) {
     var content = '';
 
@@ -52,10 +60,12 @@ class ModelFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
+  /// Generates the name of the class based on the models name
   String generateName(Model model) {
     return 'class ${model.name} {';
   }
 
+  /// Generates properties for the specified model
   String generateProperties(Model model) {
     var content = '';
 
@@ -66,6 +76,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
+  /// Generates the constructor for the model
   String generateConstructor(Model model) {
     var content = '';
 
@@ -80,6 +91,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
+  /// Generates copyWith method
   String generateCopyWith(Model model) {
     var content = '';
 
@@ -98,6 +110,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
+  /// Generates fromJson method
   String generateFromJson(Model model) {
     var content = '';
 
@@ -123,6 +136,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     return content;
   }
 
+  /// Generates toJson method
   String generateToJson(Model model) {
     var content = '';
 

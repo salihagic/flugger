@@ -2,6 +2,7 @@
 
 import 'package:flugger/flugger.dart';
 
+/// Enum to specify and handle model type
 enum FluggerModelType {
   REQUEST('request'),
   RESPONSE('response'),

@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+/// Enum to specify and handle conversion of data types from sources to Dart
 enum FluggerDataType {
   STRING('String'),
   DATETIME('DateTime'),

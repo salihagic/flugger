@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flugger/flugger.dart';
 
+/// Swagger implementation of SchemaRepository that fetches the models schema from swagger.json and translates to local models
 class SwaggerSchemaRepository implements SchemaRepository {
+  /// Flugger options to read specified swagger url from where to fetch the schema
   final FluggerOptions options;
+
+  /// http client to fetch the data
   final Dio dio;
 
   SwaggerSchemaRepository({
@@ -21,14 +25,17 @@ class SwaggerSchemaRepository implements SchemaRepository {
     };
   }
 
+  /// Parsing schema from swagger version 2
   Future<List<Model>> _parseV2(Map<String, dynamic> data) async {
     return _parseModels(data['definitions']);
   }
 
+  /// Parsing schema from swagger version 3
   Future<List<Model>> _parseV3(Map<String, dynamic> data) async {
     return _parseModels(data['components']['schemas']);
   }
 
+  /// General swagger parse schema method
   Future<List<Model>> _parseModels(Map<String, dynamic> data) async {
     return data.entries
         .map<Model>(
@@ -38,6 +45,7 @@ class SwaggerSchemaRepository implements SchemaRepository {
         .toList();
   }
 
+  /// Resolves swagger version
   String _version(Map<String, dynamic> data) {
     if (data['swagger'] != null && data['swagger'].startsWith('2')) {
       return 'v2';
