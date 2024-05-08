@@ -37,16 +37,24 @@ class Flugger {
 
   /// Currently only OBJECT type generators are supported eg. classes from the input source will be translated and generated into Flutter/Dart classes with specific methods/properties
   /// Additionaly support for generating Enums will be added
-  FluggerGenerator _resolveGeneratorByDataType(Model model) => switch (model.dataType) {
-        FluggerDataType.OBJECT => _resolveModelGeneratorByModelType(model.modelType),
-        _ => throw UnsupportedError('Generator for ${model.dataType} is not supported'),
+  FluggerGenerator _resolveGeneratorByDataType(Model model) =>
+      switch (model.dataType) {
+        FluggerDataType.OBJECT =>
+          _resolveModelGeneratorByModelType(model.modelType),
+        _ => throw UnsupportedError(
+            'Generator for ${model.dataType} is not supported'),
       };
 
   /// Resolves model generator based the current Model type from the parsed model (options are: Response, Request, Search and basic Model)
-  FluggerGenerator _resolveModelGeneratorByModelType(FluggerModelType type) => switch (type) {
-        FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(options: options, modelOptions: options.response),
-        FluggerModelType.REQUEST => RequestModelFluggerGenerator(options: options, modelOptions: options.response),
-        FluggerModelType.SEARCH => SearchModelFluggerGenerator(options: options, modelOptions: options.response),
-        FluggerModelType.MODEL => ModelFluggerGenerator(options: options, modelOptions: options.response),
+  FluggerGenerator _resolveModelGeneratorByModelType(FluggerModelType type) =>
+      switch (type) {
+        FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(
+            options: options, modelOptions: options.response),
+        FluggerModelType.REQUEST => RequestModelFluggerGenerator(
+            options: options, modelOptions: options.response),
+        FluggerModelType.SEARCH => SearchModelFluggerGenerator(
+            options: options, modelOptions: options.response),
+        FluggerModelType.MODEL => ModelFluggerGenerator(
+            options: options, modelOptions: options.response),
       };
 }

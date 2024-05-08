@@ -70,7 +70,8 @@ class ModelFluggerGenerator implements FluggerGenerator {
     var content = '';
 
     for (final property in model.properties) {
-      content += '  final ${property.type}${property.nullable ? '?' : ''} ${property.name};\n';
+      content +=
+          '  final ${property.type}${property.nullable ? '?' : ''} ${property.name};\n';
     }
 
     return content;
@@ -83,7 +84,8 @@ class ModelFluggerGenerator implements FluggerGenerator {
     content += '  ${model.name}({\n';
 
     for (final property in model.properties) {
-      content += '    ${property.nullable ? '' : 'required '}this.${property.name},\n';
+      content +=
+          '    ${property.nullable ? '' : 'required '}this.${property.name},\n';
     }
 
     content += '  });\n';
@@ -102,7 +104,8 @@ class ModelFluggerGenerator implements FluggerGenerator {
     content += '  }) {\n';
     content += '    return ${model.name}(\n';
     for (final property in model.properties) {
-      content += '      ${property.name}: ${property.name} ?? this.${property.name},\n';
+      content +=
+          '      ${property.name}: ${property.name} ?? this.${property.name},\n';
     }
     content += '    );\n';
     content += '  }\n';
@@ -114,7 +117,8 @@ class ModelFluggerGenerator implements FluggerGenerator {
   String generateFromJson(Model model) {
     var content = '';
 
-    content += '  factory ${model.name}.fromJson(Map<String, dynamic> json) {\n';
+    content +=
+        '  factory ${model.name}.fromJson(Map<String, dynamic> json) {\n';
     content += '    return ${model.name}(\n';
     for (final property in model.properties) {
       final parseMethod = switch (property.dataType) {
@@ -123,9 +127,12 @@ class ModelFluggerGenerator implements FluggerGenerator {
         FluggerDataType.INT => 'parseValue(\'${property.name}\')',
         FluggerDataType.DOUBLE => 'parseDouble(\'${property.name}\')',
         FluggerDataType.BOOL => 'parseValue(\'${property.name}\')',
-        FluggerDataType.LIST => 'parseList(\'${property.name}\'${property.templateDataType != null ? ', ${property.type}.fromJson' : ''})',
-        FluggerDataType.ENUM => 'parseEnum(\'${property.name}\', ${property.type}.parse)',
-        FluggerDataType.OBJECT => 'parse(\'${property.name}\', ${property.type}.fromJson)',
+        FluggerDataType.LIST =>
+          'parseList(\'${property.name}\'${property.templateDataType != null ? ', ${property.type}.fromJson' : ''})',
+        FluggerDataType.ENUM =>
+          'parseEnum(\'${property.name}\', ${property.type}.parse)',
+        FluggerDataType.OBJECT =>
+          'parse(\'${property.name}\', ${property.type}.fromJson)',
       };
 
       content += '      ${property.name}: json.$parseMethod,\n';

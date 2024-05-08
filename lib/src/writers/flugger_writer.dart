@@ -22,11 +22,13 @@ class FluggerWriter {
   /// Helper method that executes at the end of tool generation process and creates barrel files (one _all.dart file per folder that exports all files from that folder so it's easier to import those models in the rest of the project)
   Future<void> finalWrite() async {
     await writeBarrelFilesAndExports(options.destination_path_prefix);
-    await writeBarrelFilesAndExports(options.extensions_destination_path_prefix);
+    await writeBarrelFilesAndExports(
+        options.extensions_destination_path_prefix);
   }
 
   /// Helper method to write content to the file on specified path
-  Future<void> writeToFile(String path, String content, [FileMode mode = FileMode.write]) async {
+  Future<void> writeToFile(String path, String content,
+      [FileMode mode = FileMode.write]) async {
     final file = await File(path).create(recursive: true);
 
     final fileConnectionSink = file.openWrite(mode: mode);
@@ -45,7 +47,9 @@ class FluggerWriter {
   /// This process if done recursively for all subfolders
   Future<void> writeBarrelFilesAndExports(String path) async {
     final entities = await Directory(path).list().toList();
-    final files = entities.whereType<File>().where((file) => !file.path.endsWith('_all.dart'));
+    final files = entities
+        .whereType<File>()
+        .where((file) => !file.path.endsWith('_all.dart'));
     final subdirectories = entities.whereType<Directory>();
 
     var content = '';

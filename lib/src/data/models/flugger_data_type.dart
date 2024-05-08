@@ -16,12 +16,16 @@ enum FluggerDataType {
   const FluggerDataType(this.value);
 
   static FluggerDataType parse(Map<String, dynamic> map) {
-    if (map['type']?.toLowerCase().contains('.enums.') ?? false || map['\$ref']?.toLowerCase().contains('.enums.') ?? false) {
+    if (map['type']?.toLowerCase().contains('.enums.') ??
+        false || map['\$ref']?.toLowerCase().contains('.enums.') ??
+        false) {
       return FluggerDataType.ENUM;
     }
 
     final type = switch (map['type']?.toLowerCase()) {
-      'string' => map['format'] == 'date-time' ? FluggerDataType.DATETIME : FluggerDataType.STRING,
+      'string' => map['format'] == 'date-time'
+          ? FluggerDataType.DATETIME
+          : FluggerDataType.STRING,
       'int' => FluggerDataType.INT,
       'integer' => FluggerDataType.INT,
       'double' => FluggerDataType.DOUBLE,
