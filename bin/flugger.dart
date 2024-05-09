@@ -28,28 +28,6 @@ Future<FluggerOptions> loadOptions() async {
   return FluggerOptions.fromYamlMap(yamlOptions);
 }
 
-/// Loads local Flugger options for testing purposes
-Future<FluggerOptions> loadOptionsForLocalTesting() async {
-  return FluggerOptions(
-    structure: StructureFluggerOptions(
-      type: FluggerStructureType.structured,
-      convention: FluggerFolderNamingConvention.namespace,
-    ),
-    generic_imports: [
-      'package:onedigital_customer/_all.dart',
-    ],
-    request: ModelFluggerOptions.initialRequest(),
-    response: ModelFluggerOptions.initialResponse(),
-    search: ModelFluggerOptions.initialSearch(),
-    model: ModelFluggerOptions.initialModel(),
-    destination_path_prefix: './lib/domain/models/generated/',
-    extensions_destination_path_prefix: './lib/extensions/general/',
-    swagger: SwaggerFluggerOptions(
-      url: 'https://capi.portal.onedigital.de/swagger/v1/swagger.json',
-    ),
-  );
-}
-
 /// Resolved schema repository based on flugger.yaml options provided
 /// Currently only implementation for SchemaRepository is SwaggerSchemaRepository which fetches swagger data and generates Flutter/Dart models based on it. Future implementations will provide more sources like .NET backend projects etc.
 SchemaRepository resolveSchemaRepository(FluggerOptions options) {
