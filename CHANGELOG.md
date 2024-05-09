@@ -1,3 +1,6 @@
+## 0.0.3
+* Swagger v3 fix
+
 ## 0.0.2
 * Removed testing methods
 
