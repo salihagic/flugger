@@ -92,5 +92,6 @@ abstract class FluggerModel {
   String generatePropertyName() => propertyName ?? 'UNKNOWN_PROPERTY_NAME';
   String generateRequired() => '';
   // String generateRequired() => nullable ? '' : 'required ';
-  String generateParseMethod() => 'parseValue(\'${generatePropertyName()}\')';
+  String generateParseMethod() => generateParseMethodWithPropertyName(generatePropertyName());
+  String generateParseMethodWithPropertyName(String propertyName) => 'parseValue(\'$propertyName\')';
 }

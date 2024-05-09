@@ -119,22 +119,15 @@ class ModelFluggerGenerator implements FluggerGenerator {
     for (final property in model.properties) {
       final parseMethod = switch (property.dataType) {
         FluggerDataType.STRING => property.generateParseMethod(),
-        // FluggerDataType.STRING => 'parseValue(\'${property.generatePropertyName()}\')',
+        // TODO: add generateParseMethod to DateTimeFluggerModel
         FluggerDataType.DATETIME => 'parseDate(\'${property.generatePropertyName()}\')',
         FluggerDataType.INT => property.generateParseMethod(),
-        // FluggerDataType.INT => 'parseValue(\'${property.generatePropertyName()}\')',
         FluggerDataType.DOUBLE => property.generateParseMethod(),
-        // FluggerDataType.DOUBLE => 'parseDouble(\'${property.generatePropertyName()}\')',
         FluggerDataType.BOOL => property.generateParseMethod(),
-        // FluggerDataType.BOOL => 'parseValue(\'${property.generatePropertyName()}\')',
         FluggerDataType.LIST => property.generateParseMethod(),
-        // FluggerDataType.LIST => 'parseList(\'${property.generatePropertyName()}\'${property is ReferenceFluggerModel ? ', ${property.generatePropertyType()}.fromJson' : ''})',
         FluggerDataType.ENUM => property.generateParseMethod(),
-        // FluggerDataType.ENUM => 'parseEnum(\'${property.generatePropertyName()}\', ${property.generatePropertyType()}.parse)',
         FluggerDataType.OBJECT => property.generateParseMethod(),
-        // FluggerDataType.OBJECT => 'parse(\'${property.generatePropertyName()}\', ${property.generatePropertyType()}.fromJson)',
         FluggerDataType.REFERENCE => property.generateParseMethod(),
-        // FluggerDataType.REFERENCE => 'parse(\'${property.generatePropertyName()}\', ${property.generatePropertyType()}.fromJson)',
       };
 
       content += '      ${property.generatePropertyName()}: json.$parseMethod,\n';

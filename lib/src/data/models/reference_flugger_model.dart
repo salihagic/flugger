@@ -39,6 +39,7 @@ class ReferenceFluggerModel extends FluggerModel {
 
   @override
   String toString() => {
+        'id': id,
         'originalDataType': originalDataType,
         'dataType': dataType.value,
         'nullable': nullable,
@@ -62,24 +63,8 @@ class ReferenceFluggerModel extends FluggerModel {
   }
 
   @override
-  String generatePropertyType() => transformedReferenceOriginalName;
-
-  List<String> get referenceOriginalDataTypeTree => referenceOriginalName.split('.');
-  String get transformedReferenceOriginalName {
-    if (root) {
-      return switch (modelType) {
-        FluggerModelType.REQUEST => referenceOriginalDataTypeTree.last.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix,
-        FluggerModelType.RESPONSE => referenceOriginalDataTypeTree.last.replaceAll(options.response.name_part_to_remove, '') + options.response.name_sufix,
-        FluggerModelType.SEARCH => referenceOriginalDataTypeTree.last.replaceAll(options.search.name_part_to_remove, '') + options.search.name_sufix,
-        FluggerModelType.MODEL => referenceOriginalDataTypeTree.last.replaceAll(options.model.name_part_to_remove, '') + options.model.name_sufix,
-        FluggerModelType.ENUM => referenceOriginalDataTypeTree.last.replaceAll(options.enums.name_part_to_remove, '') + options.enums.name_sufix,
-        FluggerModelType.BASIC => referenceOriginalDataTypeTree.last,
-      };
-    }
-
-    return referenceOriginalDataTypeTree.last;
-  }
+  String generatePropertyType() => reference?.generatePropertyType() ?? 'UNKNOWN_REFERENCE_TYPE';
 
   @override
-  String generateParseMethod() => reference?.generateParseMethod() ?? '<UNABLE TO GENERATE PARSE METHOD>';
+  String generateParseMethod() => reference?.generateParseMethodWithPropertyName(propertyName ?? '') ?? '<UNABLE TO GENERATE PARSE METHOD>';
 }

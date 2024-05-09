@@ -1,7 +1,7 @@
 import 'package:flugger/flugger.dart';
 
 class ListFluggerModel extends FluggerModel {
-  final FluggerModel templateDataType;
+  FluggerModel? templateDataType;
 
   ListFluggerModel({
     required super.originalDataType,
@@ -10,7 +10,7 @@ class ListFluggerModel extends FluggerModel {
     required super.modelType,
     super.nullable,
     super.root,
-    required this.templateDataType,
+    this.templateDataType,
   });
 
   factory ListFluggerModel.fromJson(
@@ -41,5 +41,13 @@ class ListFluggerModel extends FluggerModel {
       }.toString();
 
   @override
-  String generateParseMethod() => 'parseList(\'${generatePropertyName()}\'${templateDataType is ReferenceFluggerModel ? ', ${templateDataType.generatePropertyType()}.fromJson' : ''})';
+  String generatePropertyType() => 'List<${generateTemplateDataType()}>';
+
+  String generateTemplateDataType() => templateDataType?.generatePropertyType() ?? 'UNKNOWN_TEMPLATE_DATA_TYPE';
+
+  @override
+  String generateParseMethod() => generateParseMethodWithPropertyName(generatePropertyName());
+
+  @override
+  String generateParseMethodWithPropertyName(String propertyName) => 'parseList(\'$propertyName\'${templateDataType is ReferenceFluggerModel ? ', ${templateDataType?.generatePropertyType()}.fromJson' : ''})';
 }

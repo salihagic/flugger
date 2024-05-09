@@ -34,7 +34,9 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
     if (options.logging) {
       for (final model in models) {
         // ignore: avoid_print
-        print('${model.toString()}\n');
+        if (model.id.contains('CreateCommunityFeedPost')) {
+          print('${model.toString()}\n');
+        }
       }
     }
 
@@ -54,6 +56,9 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
       for (final property in model.properties) {
         if (property is ReferenceFluggerModel) {
           property.reference = rootModels.firstWhere((x) => x.id == property.id);
+        }
+        if (property is ListFluggerModel && property.templateDataType is ReferenceFluggerModel) {
+          (property.templateDataType as ReferenceFluggerModel).reference = rootModels.firstWhere((x) => x.id == property.templateDataType?.id);
         }
       }
     }
