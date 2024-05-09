@@ -37,7 +37,7 @@ class ModelFluggerOptions {
         name_part_to_remove: 'Request',
         parent_folder_name: 'request_models',
         copyWith: true,
-        fromJson: false,
+        fromJson: true,
         toJson: true,
       );
 

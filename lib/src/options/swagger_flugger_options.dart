@@ -5,17 +5,17 @@ import 'package:yaml/yaml.dart';
 /// Swagger options to specify url from where to fetch models schema
 class SwaggerFluggerOptions {
   /// URL as the source for swagger.json schema
-  final String url;
+  final String? url;
 
   SwaggerFluggerOptions({
-    required this.url,
+    this.url,
   });
 
   /// Parsing method used by this tool to parse the values from flugger.yaml file to strongly typed SwaggerFluggerOptions
   @override
   factory SwaggerFluggerOptions.fromYamlMap(YamlMap map) {
     return SwaggerFluggerOptions(
-      url: map['url'] as String,
+      url: map['url'] as String?,
     );
   }
 }

@@ -29,8 +29,14 @@ class FluggerOptions {
   /// Options for model of type basic Model (usually have name sufix Model and generate copyWith, fromJson and toJson methods)
   final ModelFluggerOptions model;
 
+  /// Options for model of type basic Model (usually have name sufix Model and generate copyWith, fromJson and toJson methods)
+  final EnumFluggerOptions enums;
+
   /// Swagger options to specify url from where to fetch models schema
   final SwaggerFluggerOptions? swagger;
+
+  /// Log information as the content gets generated
+  final bool logging;
 
   FluggerOptions({
     required this.structure,
@@ -41,36 +47,25 @@ class FluggerOptions {
     required this.response,
     required this.search,
     required this.model,
+    required this.enums,
     required this.swagger,
+    required this.logging,
   });
 
   /// Parsing method used by this tool to parse the values from flugger.yaml file to strongly typed FluggerOptions
   factory FluggerOptions.fromYamlMap(YamlMap map) {
     return FluggerOptions(
-      structure: map['structure'] != null
-          ? StructureFluggerOptions.fromYamlMap(map['structure'])
-          : StructureFluggerOptions.initial(),
+      structure: map['structure'] != null ? StructureFluggerOptions.fromYamlMap(map['structure']) : StructureFluggerOptions.initial(),
       destination_path_prefix: map['destination_path_prefix'] ?? '',
-      extensions_destination_path_prefix:
-          map['extensions_destination_path_prefix'] ?? '',
-      generic_imports:
-          map['generic_imports']?.map<String>((x) => x as String).toList() ??
-              [],
-      request: map['request'] != null
-          ? ModelFluggerOptions.fromYamlMap(map['request'])
-          : ModelFluggerOptions.initialRequest(),
-      response: map['response'] != null
-          ? ModelFluggerOptions.fromYamlMap(map['response'])
-          : ModelFluggerOptions.initialResponse(),
-      search: map['search'] != null
-          ? ModelFluggerOptions.fromYamlMap(map['search'])
-          : ModelFluggerOptions.initialSearch(),
-      model: map['model'] != null
-          ? ModelFluggerOptions.fromYamlMap(map['model'])
-          : ModelFluggerOptions.initialModel(),
-      swagger: map['swagger'] != null
-          ? SwaggerFluggerOptions.fromYamlMap(map['swagger'])
-          : null,
+      extensions_destination_path_prefix: map['extensions_destination_path_prefix'] ?? '',
+      generic_imports: map['generic_imports']?.map<String>((x) => x as String).toList() ?? [],
+      request: map['request'] != null ? ModelFluggerOptions.fromYamlMap(map['request']) : ModelFluggerOptions.initialRequest(),
+      response: map['response'] != null ? ModelFluggerOptions.fromYamlMap(map['response']) : ModelFluggerOptions.initialResponse(),
+      search: map['search'] != null ? ModelFluggerOptions.fromYamlMap(map['search']) : ModelFluggerOptions.initialSearch(),
+      model: map['model'] != null ? ModelFluggerOptions.fromYamlMap(map['model']) : ModelFluggerOptions.initialModel(),
+      enums: map['enum'] != null ? EnumFluggerOptions.fromYamlMap(map['enums']) : EnumFluggerOptions.initial(),
+      swagger: map['swagger'] != null ? SwaggerFluggerOptions.fromYamlMap(map['swagger']) : null,
+      logging: map['logging'] ?? false,
     );
   }
 }

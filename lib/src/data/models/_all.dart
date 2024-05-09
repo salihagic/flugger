@@ -1,6 +1,10 @@
-export 'flugger_data_type.dart';
-export 'flugger_folder_naming_convention.dart';
-export 'flugger_generator_result.dart';
-export 'flugger_model_type.dart';
-export 'flugger_structure.dart';
+export 'bool_flugger_model.dart';
+export 'enum_flugger_model.dart';
+export 'flugger_model.dart';
+export 'int_flugger_model.dart';
+export 'list_flugger_model.dart';
 export 'model.dart';
+export 'number_flugger_model.dart';
+export 'object_flugger_model.dart';
+export 'reference_flugger_model.dart';
+export 'string_flugger_model.dart';
