@@ -45,7 +45,7 @@ Future<FluggerOptions> loadOptionsForLocalTesting() async {
     destination_path_prefix: './generated/',
     extensions_destination_path_prefix: './generated/',
     swagger: SwaggerFluggerOptions(
-      url: 'https://capi.portal.onedigital.de/swagger/v1/swagger.json',
+      url: 'https://YOUR_DOMAIN.com/swagger/v1/swagger.json',
     ),
     logging: true,
   );
