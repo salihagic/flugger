@@ -79,4 +79,7 @@ class ReferenceFluggerModel extends FluggerModel {
 
     return referenceOriginalDataTypeTree.last;
   }
+
+  @override
+  String generateParseMethod() => reference?.generateParseMethod() ?? '<UNABLE TO GENERATE PARSE METHOD>';
 }

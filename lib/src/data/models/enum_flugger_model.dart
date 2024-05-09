@@ -40,4 +40,7 @@ class EnumFluggerModel extends FluggerModel {
 
   @override
   String generatePropertyType() => transformedOriginalDataType;
+
+  @override
+  String generateParseMethod() => 'parseEnum(\'${generatePropertyName()}\', ${generatePropertyType()}.parse)';
 }

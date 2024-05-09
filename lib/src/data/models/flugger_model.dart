@@ -84,10 +84,13 @@ abstract class FluggerModel {
         FluggerDataType.INT => dataType.value,
         FluggerDataType.DOUBLE => dataType.value,
         FluggerDataType.BOOL => dataType.value,
-        _ => 'UNKNOWN',
+        _ => 'UNKNOWN_PROPERTY_TYPE',
       };
 
-  String generateNullableSign() => nullable ? '?' : '';
-  String generatePropertyName() => propertyName ?? 'UNKNOWN';
-  String generateRequired() => nullable ? '' : 'required ';
+  String generateNullableSign() => '?';
+  // String generateNullableSign() => nullable ? '?' : '';
+  String generatePropertyName() => propertyName ?? 'UNKNOWN_PROPERTY_NAME';
+  String generateRequired() => '';
+  // String generateRequired() => nullable ? '' : 'required ';
+  String generateParseMethod() => 'parseValue(\'${generatePropertyName()}\')';
 }

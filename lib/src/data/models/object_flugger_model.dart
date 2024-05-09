@@ -60,4 +60,7 @@ class ObjectFluggerModel extends FluggerModel {
 
   @override
   String generatePropertyType() => transformedOriginalDataType;
+
+  @override
+  String generateParseMethod() => 'parse(\'${generatePropertyName()}\', ${generatePropertyType()}.fromJson)';
 }

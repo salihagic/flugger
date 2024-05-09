@@ -39,4 +39,7 @@ class ListFluggerModel extends FluggerModel {
         'root': root,
         'templateDataType': templateDataType.toString(),
       }.toString();
+
+  @override
+  String generateParseMethod() => 'parseList(\'${generatePropertyName()}\'${templateDataType is ReferenceFluggerModel ? ', ${templateDataType.generatePropertyType()}.fromJson' : ''})';
 }

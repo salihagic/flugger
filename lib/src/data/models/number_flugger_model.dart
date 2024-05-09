@@ -47,4 +47,7 @@ class NumberFluggerModel extends FluggerModel {
         'nullable': nullable,
         'root': root,
       }.toString();
+
+  @override
+  String generateParseMethod() => 'parseDouble(\'${generatePropertyName()}\')';
 }
