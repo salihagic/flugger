@@ -49,7 +49,7 @@ class Flugger {
         FluggerModelType.REQUEST => RequestModelFluggerGenerator(options: options, modelOptions: options.request),
         FluggerModelType.SEARCH => SearchModelFluggerGenerator(options: options, modelOptions: options.search),
         FluggerModelType.MODEL => ModelFluggerGenerator(options: options, modelOptions: options.model),
-        FluggerModelType.ENUM => EnumFluggerGenerator(),
+        FluggerModelType.ENUM => EnumFluggerGenerator(options: options, modelOptions: options.enums),
         FluggerModelType.BASIC => throw UnsupportedError('GENERATOR FOR BASIC DATA TYPES ARE NOT VALID'),
       };
 }

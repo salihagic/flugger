@@ -1,6 +1,9 @@
 import 'package:flugger/flugger.dart';
 
 class EnumFluggerModel extends FluggerModel {
+  final FluggerDataType enumDataType;
+  final List<dynamic> values;
+
   EnumFluggerModel({
     required super.originalDataType,
     super.propertyName,
@@ -8,6 +11,8 @@ class EnumFluggerModel extends FluggerModel {
     required super.modelType,
     super.nullable,
     super.root,
+    required this.enumDataType,
+    required this.values,
   });
 
   factory EnumFluggerModel.fromJson(
@@ -24,8 +29,14 @@ class EnumFluggerModel extends FluggerModel {
       modelType: FluggerModelType.ENUM,
       nullable: json['nullable'] ?? false,
       root: root,
+      enumDataType: FluggerDataType.parse(json),
+      values: json['enum'].map((x) => x).toList(),
     );
   }
+
+  String generateEnumName() => transformedOriginalDataType;
+
+  String generateEnumDataType() => enumDataType.value;
 
   @override
   String generatePropertyType() => transformedOriginalDataType;

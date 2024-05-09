@@ -17,6 +17,10 @@ class FluggerWriter {
       '${options.extensions_destination_path_prefix}/map_extensions.dart',
       mapExtensions,
     );
+    await writeToFile(
+      '${options.extensions_destination_path_prefix}/list_extensions.dart',
+      listExtensions,
+    );
   }
 
   /// Helper method that executes at the end of tool generation process and creates barrel files (one _all.dart file per folder that exports all files from that folder so it's easier to import those models in the rest of the project)

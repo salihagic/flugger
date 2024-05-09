@@ -35,15 +35,15 @@ Future<FluggerOptions> loadOptionsForLocalTesting() async {
       convention: FluggerFolderNamingConvention.namespace,
     ),
     generic_imports: [
-      'package:onedigital_customer/_all.dart',
+      '../../../generated/_all.dart',
     ],
     request: ModelFluggerOptions.initialRequest(),
     response: ModelFluggerOptions.initialResponse(),
     search: ModelFluggerOptions.initialSearch(),
     model: ModelFluggerOptions.initialModel(),
     enums: EnumFluggerOptions.initial(),
-    destination_path_prefix: './lib/models/generated/',
-    extensions_destination_path_prefix: './lib/extensions/general/',
+    destination_path_prefix: './generated/',
+    extensions_destination_path_prefix: './generated/',
     swagger: SwaggerFluggerOptions(
       url: 'https://capi.portal.onedigital.de/swagger/v1/swagger.json',
     ),

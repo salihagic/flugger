@@ -13,10 +13,14 @@ class EnumFluggerOptions {
   /// If the convention is structured, all folders of the same type will be grouped into group parent folder (eg. response_models)
   final String parent_folder_name;
 
+  /// Specify if the model of this specific type should have generated parse method in the resulting file
+  final bool parse;
+
   EnumFluggerOptions({
     required this.name_sufix,
     required this.name_part_to_remove,
     required this.parent_folder_name,
+    required this.parse,
   });
 
   /// Default values for Enum options
@@ -24,6 +28,7 @@ class EnumFluggerOptions {
         name_sufix: '',
         name_part_to_remove: '',
         parent_folder_name: 'enums',
+        parse: true,
       );
 
   /// Parsing method used by this tool to parse the values from flugger.yaml file to strongly typed ModelFluggerOptions
@@ -33,6 +38,7 @@ class EnumFluggerOptions {
       name_sufix: map['name_sufix'] ?? '',
       name_part_to_remove: map['name_part_to_remove'] ?? '',
       parent_folder_name: map['parent_folder_name'] ?? '',
+      parse: map['parse'] ?? '',
     );
   }
 }
