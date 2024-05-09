@@ -27,7 +27,22 @@ class ModelFluggerGenerator implements FluggerGenerator {
   String generateContent(ObjectFluggerModel model) {
     var content = '';
 
-    content += '${generateImports(model)}\n';
+    if (modelOptions.fromJson ||
+        model.properties.any((x) =>
+            [
+              FluggerDataType.OBJECT,
+              FluggerDataType.REFERENCE,
+              FluggerDataType.ENUM,
+            ].contains(x.dataType) ||
+            (x is ListFluggerModel &&
+                [
+                  FluggerDataType.OBJECT,
+                  FluggerDataType.REFERENCE,
+                  FluggerDataType.ENUM,
+                ].contains(x.templateDataType?.dataType)))) {
+      content += '${generateImports(model)}\n';
+    }
+
     content += '${generateName(model)}\n';
     content += '${generateProperties(model)}\n';
     content += generateConstructor(model);

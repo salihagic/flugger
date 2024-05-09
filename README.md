@@ -66,6 +66,11 @@ model:
   copyWith: true
   fromJson: true
   toJson: true
+enums:
+  name_sufix: ''
+  name_part_to_remove: ''
+  parent_folder_name: 'enums'
+  parse: true
 ```
 
 ## Usage
