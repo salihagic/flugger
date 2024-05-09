@@ -1,3 +1,6 @@
+## 0.0.4
+* Model options fix
+
 ## 0.0.3
 * Swagger v3 fix
 
