@@ -27,7 +27,8 @@ class ListFluggerModel extends FluggerModel {
       modelType: FluggerModelType.BASIC,
       nullable: json['nullable'] ?? false,
       root: root,
-      templateDataType: FluggerModel.fromJson(originalDataType, json['items'], options),
+      templateDataType:
+          FluggerModel.fromJson(originalDataType, json['items'], options),
     );
   }
 
@@ -43,11 +44,14 @@ class ListFluggerModel extends FluggerModel {
   @override
   String generatePropertyType() => 'List<${generateTemplateDataType()}>';
 
-  String generateTemplateDataType() => templateDataType?.generatePropertyType() ?? 'UNKNOWN_TEMPLATE_DATA_TYPE';
+  String generateTemplateDataType() =>
+      templateDataType?.generatePropertyType() ?? 'UNKNOWN_TEMPLATE_DATA_TYPE';
 
   @override
-  String generateParseMethod() => generateParseMethodWithPropertyName(generatePropertyName());
+  String generateParseMethod() =>
+      generateParseMethodWithPropertyName(generatePropertyName());
 
   @override
-  String generateParseMethodWithPropertyName(String propertyName) => 'parseList(\'$propertyName\'${templateDataType is ReferenceFluggerModel ? ', ${templateDataType?.generatePropertyType()}.fromJson' : ''})';
+  String generateParseMethodWithPropertyName(String propertyName) =>
+      'parseList(\'$propertyName\'${templateDataType is ReferenceFluggerModel ? ', ${templateDataType?.generatePropertyType()}.fromJson' : ''})';
 }

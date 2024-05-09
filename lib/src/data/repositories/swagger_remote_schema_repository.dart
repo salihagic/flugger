@@ -25,7 +25,8 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
   Future<List<FluggerModel>> _parseModels(Map<String, dynamic> data) async {
     final models = data.entries
         .map<FluggerModel>(
-          (entry) => FluggerModel.fromJson(entry.key, entry.value, options, true),
+          (entry) =>
+              FluggerModel.fromJson(entry.key, entry.value, options, true),
         )
         .toList();
 
@@ -34,9 +35,7 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
     if (options.logging) {
       for (final model in models) {
         // ignore: avoid_print
-        if (model.id.contains('CreateCommunityFeedPost')) {
-          print('${model.toString()}\n');
-        }
+        print('${model.toString()}\n');
       }
     }
 
@@ -51,14 +50,19 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
     }
   }
 
-  void _updateModelReferences(FluggerModel model, List<FluggerModel> rootModels) {
+  void _updateModelReferences(
+      FluggerModel model, List<FluggerModel> rootModels) {
     if (model is ObjectFluggerModel) {
       for (final property in model.properties) {
         if (property is ReferenceFluggerModel) {
-          property.reference = rootModels.firstWhere((x) => x.id == property.id);
+          property.reference =
+              rootModels.firstWhere((x) => x.id == property.id);
         }
-        if (property is ListFluggerModel && property.templateDataType is ReferenceFluggerModel) {
-          (property.templateDataType as ReferenceFluggerModel).reference = rootModels.firstWhere((x) => x.id == property.templateDataType?.id);
+        if (property is ListFluggerModel &&
+            property.templateDataType is ReferenceFluggerModel) {
+          (property.templateDataType as ReferenceFluggerModel).reference =
+              rootModels
+                  .firstWhere((x) => x.id == property.templateDataType?.id);
         }
       }
     }

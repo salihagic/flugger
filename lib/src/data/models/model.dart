@@ -16,7 +16,8 @@ class Model {
 
   String get type => switch (dataType) {
         FluggerDataType.OBJECT => dataTypeObjectType ?? 'Object',
-        FluggerDataType.LIST => 'List<${templateDataTypeObjectType ?? templateDataType?.value ?? 'Object'}>',
+        FluggerDataType.LIST =>
+          'List<${templateDataTypeObjectType ?? templateDataType?.value ?? 'Object'}>',
         FluggerDataType.ENUM => dataTypeObjectType ?? 'ENUM',
         _ => dataType.value,
       };
@@ -44,10 +45,20 @@ class Model {
     FluggerModelType? pModelType,
   ]) {
     final dataType = FluggerDataType.parse(map);
-    final dataTypeObjectName = map['\$ref']?.replaceAll('#/components/schemas/', '')?.split('.')?.last;
+    final dataTypeObjectName =
+        map['\$ref']?.replaceAll('#/components/schemas/', '')?.split('.')?.last;
 
-    final templateDataType = dataType == FluggerDataType.LIST && map['items'] != null ? FluggerDataType.parse(map['items']) : null;
-    final templateDataTypeObjectType = dataType == FluggerDataType.LIST && map['items']?['\$ref'] != null ? map['items']['\$ref'].replaceAll('#/components/schemas/', '')?.split('.')?.last : null;
+    final templateDataType =
+        dataType == FluggerDataType.LIST && map['items'] != null
+            ? FluggerDataType.parse(map['items'])
+            : null;
+    final templateDataTypeObjectType =
+        dataType == FluggerDataType.LIST && map['items']?['\$ref'] != null
+            ? map['items']['\$ref']
+                .replaceAll('#/components/schemas/', '')
+                ?.split('.')
+                ?.last
+            : null;
 
     final modelType = pModelType ?? FluggerModelType.parse(name, options);
     final transformedDataTypeObjectType = dataType == FluggerDataType.OBJECT
@@ -56,13 +67,22 @@ class Model {
             ? dataTypeObjectName
             : null;
 
-    final templateModelType = templateDataTypeObjectType != null ? FluggerModelType.parse(templateDataTypeObjectType, options) : modelType;
-    final transformedTemplateDataTypeObjectType = templateDataTypeObjectType != null ? _transformName(templateDataTypeObjectType ?? 'Object', templateModelType, options) : null;
+    final templateModelType = templateDataTypeObjectType != null
+        ? FluggerModelType.parse(templateDataTypeObjectType, options)
+        : modelType;
+    final transformedTemplateDataTypeObjectType = templateDataTypeObjectType !=
+            null
+        ? _transformName(
+            templateDataTypeObjectType ?? 'Object', templateModelType, options)
+        : null;
 
     final nameTree = name.split('.');
-    final transformedName = isRootModel ? _transformName(nameTree.last, modelType, options) : nameTree.last;
+    final transformedName = isRootModel
+        ? _transformName(nameTree.last, modelType, options)
+        : nameTree.last;
 
-    final namespace = _toSnakeCase(nameTree.length >= 2 ? nameTree[nameTree.length - 2] : '');
+    final namespace =
+        _toSnakeCase(nameTree.length >= 2 ? nameTree[nameTree.length - 2] : '');
     final fileName = '${_toSnakeCase(transformedName)}.dart';
 
     return Model(
@@ -112,17 +132,28 @@ class Model {
     FluggerOptions options,
   ) {
     return switch (modelType) {
-      FluggerModelType.REQUEST => name.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix,
-      FluggerModelType.RESPONSE => name.replaceAll(options.response.name_part_to_remove, '') + options.response.name_sufix,
-      FluggerModelType.SEARCH => name.replaceAll(options.search.name_part_to_remove, '') + options.search.name_sufix,
-      FluggerModelType.MODEL => name.replaceAll(options.model.name_part_to_remove, '') + options.model.name_sufix,
-      FluggerModelType.ENUM => name.replaceAll(options.enums.name_part_to_remove, '') + options.enums.name_sufix,
+      FluggerModelType.REQUEST =>
+        name.replaceAll(options.request.name_part_to_remove, '') +
+            options.request.name_sufix,
+      FluggerModelType.RESPONSE =>
+        name.replaceAll(options.response.name_part_to_remove, '') +
+            options.response.name_sufix,
+      FluggerModelType.SEARCH =>
+        name.replaceAll(options.search.name_part_to_remove, '') +
+            options.search.name_sufix,
+      FluggerModelType.MODEL =>
+        name.replaceAll(options.model.name_part_to_remove, '') +
+            options.model.name_sufix,
+      FluggerModelType.ENUM =>
+        name.replaceAll(options.enums.name_part_to_remove, '') +
+            options.enums.name_sufix,
       FluggerModelType.BASIC => name,
     };
   }
 
   static String _toSnakeCase(String name) {
-    final result = name.replaceAllMapped(RegExp(r'[A-Z]'), (Match m) => '_${m[0]!.toLowerCase()}');
+    final result = name.replaceAllMapped(
+        RegExp(r'[A-Z]'), (Match m) => '_${m[0]!.toLowerCase()}');
 
     return result.startsWith('_')
         ? result.substring(1)

@@ -49,8 +49,10 @@ class NumberFluggerModel extends FluggerModel {
       }.toString();
 
   @override
-  String generateParseMethod() => generateParseMethodWithPropertyName(generatePropertyName());
+  String generateParseMethod() =>
+      generateParseMethodWithPropertyName(generatePropertyName());
 
   @override
-  String generateParseMethodWithPropertyName(String propertyName) => 'parseDouble(\'$propertyName\')';
+  String generateParseMethodWithPropertyName(String propertyName) =>
+      'parseDouble(\'$propertyName\')';
 }

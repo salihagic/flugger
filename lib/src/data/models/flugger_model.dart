@@ -25,23 +25,39 @@ abstract class FluggerModel {
     String? propertyName,
   ]) {
     if (json['\$ref'] != null) {
-      return ReferenceFluggerModel.fromJson(originalDataType, json, options, root, propertyName);
+      return ReferenceFluggerModel.fromJson(
+          originalDataType, json, options, root, propertyName);
     }
 
     return switch (json['type']) {
-      'string' => StringFluggerModel.fromJson(originalDataType, json, options, root, propertyName),
-      'number' => NumberFluggerModel.fromJson(originalDataType, json, options, root, propertyName),
-      'integer' => () {
-          if (json['enum'] != null) {
-            return EnumFluggerModel.fromJson(originalDataType, json, options, root, propertyName);
+      'string' => () {
+          if (json['format'] == 'date-time') {
+            return DateTimeFluggerModel.fromJson(
+                originalDataType, json, options, root, propertyName);
           }
 
-          return IntFluggerModel.fromJson(originalDataType, json, options, root, propertyName);
+          return StringFluggerModel.fromJson(
+              originalDataType, json, options, root, propertyName);
         }(),
-      'boolean' => BoolFluggerModel.fromJson(originalDataType, json, options, root, propertyName),
-      'array' => ListFluggerModel.fromJson(originalDataType, json, options, root, propertyName),
-      'object' => ObjectFluggerModel.fromJson(originalDataType, json, options, root, propertyName),
-      _ => ObjectFluggerModel.fromJson(originalDataType, json, options, root, propertyName),
+      'number' => NumberFluggerModel.fromJson(
+          originalDataType, json, options, root, propertyName),
+      'integer' => () {
+          if (json['enum'] != null) {
+            return EnumFluggerModel.fromJson(
+                originalDataType, json, options, root, propertyName);
+          }
+
+          return IntFluggerModel.fromJson(
+              originalDataType, json, options, root, propertyName);
+        }(),
+      'boolean' => BoolFluggerModel.fromJson(
+          originalDataType, json, options, root, propertyName),
+      'array' => ListFluggerModel.fromJson(
+          originalDataType, json, options, root, propertyName),
+      'object' => ObjectFluggerModel.fromJson(
+          originalDataType, json, options, root, propertyName),
+      _ => ObjectFluggerModel.fromJson(
+          originalDataType, json, options, root, propertyName),
     };
   }
 
@@ -61,16 +77,29 @@ abstract class FluggerModel {
 
   String get id => originalDataType;
   List<String> get originalDataTypeTree => originalDataType.split('.');
-  String get namespace => (originalDataTypeTree.length >= 2 ? originalDataTypeTree[originalDataTypeTree.length - 2] : '').toSnakeCase();
+  String get namespace => (originalDataTypeTree.length >= 2
+          ? originalDataTypeTree[originalDataTypeTree.length - 2]
+          : '')
+      .toSnakeCase();
   String get fileName => '${transformedOriginalDataType.toSnakeCase()}.dart';
   String get transformedOriginalDataType {
     if (root) {
       return switch (modelType) {
-        FluggerModelType.REQUEST => originalDataTypeTree.last.replaceAll(options.request.name_part_to_remove, '') + options.request.name_sufix,
-        FluggerModelType.RESPONSE => originalDataTypeTree.last.replaceAll(options.response.name_part_to_remove, '') + options.response.name_sufix,
-        FluggerModelType.SEARCH => originalDataTypeTree.last.replaceAll(options.search.name_part_to_remove, '') + options.search.name_sufix,
-        FluggerModelType.MODEL => originalDataTypeTree.last.replaceAll(options.model.name_part_to_remove, '') + options.model.name_sufix,
-        FluggerModelType.ENUM => originalDataTypeTree.last.replaceAll(options.enums.name_part_to_remove, '') + options.enums.name_sufix,
+        FluggerModelType.REQUEST => originalDataTypeTree.last
+                .replaceAll(options.request.name_part_to_remove, '') +
+            options.request.name_sufix,
+        FluggerModelType.RESPONSE => originalDataTypeTree.last
+                .replaceAll(options.response.name_part_to_remove, '') +
+            options.response.name_sufix,
+        FluggerModelType.SEARCH => originalDataTypeTree.last
+                .replaceAll(options.search.name_part_to_remove, '') +
+            options.search.name_sufix,
+        FluggerModelType.MODEL => originalDataTypeTree.last
+                .replaceAll(options.model.name_part_to_remove, '') +
+            options.model.name_sufix,
+        FluggerModelType.ENUM => originalDataTypeTree.last
+                .replaceAll(options.enums.name_part_to_remove, '') +
+            options.enums.name_sufix,
         FluggerModelType.BASIC => originalDataType,
       };
     }
@@ -92,6 +121,8 @@ abstract class FluggerModel {
   String generatePropertyName() => propertyName ?? 'UNKNOWN_PROPERTY_NAME';
   String generateRequired() => '';
   // String generateRequired() => nullable ? '' : 'required ';
-  String generateParseMethod() => generateParseMethodWithPropertyName(generatePropertyName());
-  String generateParseMethodWithPropertyName(String propertyName) => 'parseValue(\'$propertyName\')';
+  String generateParseMethod() =>
+      generateParseMethodWithPropertyName(generatePropertyName());
+  String generateParseMethodWithPropertyName(String propertyName) =>
+      'parseValue(\'$propertyName\')';
 }

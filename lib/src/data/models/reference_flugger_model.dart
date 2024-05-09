@@ -33,7 +33,8 @@ class ReferenceFluggerModel extends FluggerModel {
       modelType: FluggerModelType.parse(originalDataType, options),
       nullable: json['nullable'] ?? false,
       root: root,
-      referenceOriginalName: json['\$ref'].replaceAll('#/components/schemas/', ''),
+      referenceOriginalName:
+          json['\$ref'].replaceAll('#/components/schemas/', ''),
     );
   }
 
@@ -63,8 +64,11 @@ class ReferenceFluggerModel extends FluggerModel {
   }
 
   @override
-  String generatePropertyType() => reference?.generatePropertyType() ?? 'UNKNOWN_REFERENCE_TYPE';
+  String generatePropertyType() =>
+      reference?.generatePropertyType() ?? 'UNKNOWN_REFERENCE_TYPE';
 
   @override
-  String generateParseMethod() => reference?.generateParseMethodWithPropertyName(propertyName ?? '') ?? '<UNABLE TO GENERATE PARSE METHOD>';
+  String generateParseMethod() =>
+      reference?.generateParseMethodWithPropertyName(propertyName ?? '') ??
+      '<UNABLE TO GENERATE PARSE METHOD>';
 }

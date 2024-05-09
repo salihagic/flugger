@@ -18,7 +18,13 @@ enum FluggerDataType {
 
   static FluggerDataType parse(Map<String, dynamic> json) {
     return switch (json['type']) {
-      'string' => FluggerDataType.STRING,
+      'string' => () {
+          if (json['format'] == 'date-time') {
+            return FluggerDataType.DATETIME;
+          }
+
+          return FluggerDataType.STRING;
+        }(),
       'number' => FluggerDataType.DOUBLE,
       'integer' => FluggerDataType.INT,
       'boolean' => FluggerDataType.BOOL,

@@ -1,4 +1,5 @@
 export 'bool_flugger_model.dart';
+export 'date_time_flugger_model.dart';
 export 'enum_flugger_model.dart';
 export 'flugger_model.dart';
 export 'int_flugger_model.dart';

@@ -70,7 +70,8 @@ class ModelFluggerGenerator implements FluggerGenerator {
     var content = '';
 
     for (final property in model.properties) {
-      content += '  final ${property.generatePropertyType()}${property.generateNullableSign()} ${property.generatePropertyName()};\n';
+      content +=
+          '  final ${property.generatePropertyType()}${property.generateNullableSign()} ${property.generatePropertyName()};\n';
     }
 
     return content;
@@ -83,7 +84,8 @@ class ModelFluggerGenerator implements FluggerGenerator {
     content += '  ${model.generateClassName()}({\n';
 
     for (final property in model.properties) {
-      content += '    ${property.generateRequired()}this.${property.generatePropertyName()},\n';
+      content +=
+          '    ${property.generateRequired()}this.${property.generatePropertyName()},\n';
     }
 
     content += '  });\n';
@@ -97,12 +99,14 @@ class ModelFluggerGenerator implements FluggerGenerator {
 
     content += '  ${model.generateClassName()} copyWith({\n';
     for (final property in model.properties) {
-      content += '    ${property.generatePropertyType()}? ${property.generatePropertyName()},\n';
+      content +=
+          '    ${property.generatePropertyType()}? ${property.generatePropertyName()},\n';
     }
     content += '  }) {\n';
     content += '    return ${model.generateClassName()}(\n';
     for (final property in model.properties) {
-      content += '      ${property.generatePropertyName()}: ${property.generatePropertyName()} ?? this.${property.generatePropertyName()},\n';
+      content +=
+          '      ${property.generatePropertyName()}: ${property.generatePropertyName()} ?? this.${property.generatePropertyName()},\n';
     }
     content += '    );\n';
     content += '  }\n';
@@ -114,13 +118,13 @@ class ModelFluggerGenerator implements FluggerGenerator {
   String generateFromJson(ObjectFluggerModel model) {
     var content = '';
 
-    content += '  factory ${model.generateClassName()}.fromJson(Map<String, dynamic> json) {\n';
+    content +=
+        '  factory ${model.generateClassName()}.fromJson(Map<String, dynamic> json) {\n';
     content += '    return ${model.generateClassName()}(\n';
     for (final property in model.properties) {
       final parseMethod = switch (property.dataType) {
         FluggerDataType.STRING => property.generateParseMethod(),
-        // TODO: add generateParseMethod to DateTimeFluggerModel
-        FluggerDataType.DATETIME => 'parseDate(\'${property.generatePropertyName()}\')',
+        FluggerDataType.DATETIME => property.generateParseMethod(),
         FluggerDataType.INT => property.generateParseMethod(),
         FluggerDataType.DOUBLE => property.generateParseMethod(),
         FluggerDataType.BOOL => property.generateParseMethod(),
@@ -130,7 +134,8 @@ class ModelFluggerGenerator implements FluggerGenerator {
         FluggerDataType.REFERENCE => property.generateParseMethod(),
       };
 
-      content += '      ${property.generatePropertyName()}: json.$parseMethod,\n';
+      content +=
+          '      ${property.generatePropertyName()}: json.$parseMethod,\n';
     }
     content += '    );\n';
     content += '  }\n';
@@ -145,7 +150,8 @@ class ModelFluggerGenerator implements FluggerGenerator {
     content += '  Map<String, dynamic> toJson() {\n';
     content += '    return <String, dynamic>{\n';
     for (final property in model.properties) {
-      content += '      \'${property.generatePropertyName()}\': ${property.generatePropertyName()},\n';
+      content +=
+          '      \'${property.generatePropertyName()}\': ${property.generatePropertyName()},\n';
     }
     content += '    };\n';
     content += '  }\n';

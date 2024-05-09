@@ -1,3 +1,6 @@
+## 0.0.5
+* Model parses updated
+
 ## 0.0.4
 * Model options fix
 

@@ -22,21 +22,39 @@ class StructuredFluggerWriter extends FluggerWriter {
   }
 
   /// Resolves the name of the parent folder for the current file (FluggerGeneratorResult)
-  String _resolveParentFolder(FluggerGeneratorResult result) => switch (options.structure.convention) {
-        FluggerFolderNamingConvention.namespace => '${_resolveParentFolderByNamespace(result)}/${_resolveParentFolderByModelType(result.model.modelType)}/',
-        FluggerFolderNamingConvention.type => '/${_resolveParentFolderByModelType(result.model.modelType)}/',
+  String _resolveParentFolder(FluggerGeneratorResult result) =>
+      switch (options.structure.convention) {
+        FluggerFolderNamingConvention.namespace =>
+          '${_resolveParentFolderByNamespace(result)}/${_resolveParentFolderByModelType(result.model.modelType)}/',
+        FluggerFolderNamingConvention.type =>
+          '/${_resolveParentFolderByModelType(result.model.modelType)}/',
       };
 
   /// Resolves the name of the parent folder for the current file (FluggerGeneratorResult)
-  String _resolveParentFolderByNamespace(FluggerGeneratorResult result) => result.model.namespace.isNotEmpty ? '/${result.model.namespace}' : '';
+  String _resolveParentFolderByNamespace(FluggerGeneratorResult result) =>
+      result.model.namespace.isNotEmpty ? '/${result.model.namespace}' : '';
 
   /// Resolves the name of the parent folder for the current file (FluggerModelType)
-  String _resolveParentFolderByModelType(FluggerModelType modelType) => switch (modelType) {
-        FluggerModelType.REQUEST => options.request.parent_folder_name.isNotEmpty ? options.request.parent_folder_name : 'request_models',
-        FluggerModelType.RESPONSE => options.response.parent_folder_name.isNotEmpty ? options.response.parent_folder_name : 'response_models',
-        FluggerModelType.SEARCH => options.search.parent_folder_name.isNotEmpty ? options.search.parent_folder_name : 'search_models',
-        FluggerModelType.MODEL => options.model.parent_folder_name.isNotEmpty ? options.model.parent_folder_name : 'models',
-        FluggerModelType.ENUM => options.enums.parent_folder_name.isNotEmpty ? options.enums.parent_folder_name : 'enums',
-        FluggerModelType.BASIC => throw UnsupportedError('BASIC DATA TYPES SHOULD NOT BE GENERATED'),
+  String _resolveParentFolderByModelType(FluggerModelType modelType) =>
+      switch (modelType) {
+        FluggerModelType.REQUEST =>
+          options.request.parent_folder_name.isNotEmpty
+              ? options.request.parent_folder_name
+              : 'request_models',
+        FluggerModelType.RESPONSE =>
+          options.response.parent_folder_name.isNotEmpty
+              ? options.response.parent_folder_name
+              : 'response_models',
+        FluggerModelType.SEARCH => options.search.parent_folder_name.isNotEmpty
+            ? options.search.parent_folder_name
+            : 'search_models',
+        FluggerModelType.MODEL => options.model.parent_folder_name.isNotEmpty
+            ? options.model.parent_folder_name
+            : 'models',
+        FluggerModelType.ENUM => options.enums.parent_folder_name.isNotEmpty
+            ? options.enums.parent_folder_name
+            : 'enums',
+        FluggerModelType.BASIC =>
+          throw UnsupportedError('BASIC DATA TYPES SHOULD NOT BE GENERATED'),
       };
 }

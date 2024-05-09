@@ -1,6 +1,7 @@
 extension StringX on String? {
   String toSnakeCase() {
-    final result = (this ?? '').replaceAllMapped(RegExp(r'[A-Z]'), (Match m) => '_${m[0]!.toLowerCase()}');
+    final result = (this ?? '').replaceAllMapped(
+        RegExp(r'[A-Z]'), (Match m) => '_${m[0]!.toLowerCase()}');
 
     return result.startsWith('_')
         ? result.substring(1)

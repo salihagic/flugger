@@ -30,7 +30,8 @@ class ObjectFluggerModel extends FluggerModel {
       properties: json['properties']?.entries.map<FluggerModel>(
             (entry) {
               return FluggerModel.fromJson(
-                json['type'] ?? json['\$ref'].replaceAll('#/components/schemas/', ''),
+                json['type'] ??
+                    json['\$ref'].replaceAll('#/components/schemas/', ''),
                 entry.value,
                 options,
                 false,
@@ -62,8 +63,10 @@ class ObjectFluggerModel extends FluggerModel {
   String generatePropertyType() => transformedOriginalDataType;
 
   @override
-  String generateParseMethod() => generateParseMethodWithPropertyName(generatePropertyName());
+  String generateParseMethod() =>
+      generateParseMethodWithPropertyName(generatePropertyName());
 
   @override
-  String generateParseMethodWithPropertyName(String propertyName) => 'parse(\'$propertyName\', ${generatePropertyType()}.fromJson)';
+  String generateParseMethodWithPropertyName(String propertyName) =>
+      'parse(\'$propertyName\', ${generatePropertyType()}.fromJson)';
 }

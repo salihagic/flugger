@@ -37,19 +37,30 @@ class Flugger {
     await writer.write(results);
   }
 
-  FluggerGenerator _resolveGeneratorByDataType(FluggerModel model) => switch (model.dataType) {
-        FluggerDataType.OBJECT => _resolveModelGeneratorByModelType(model.modelType),
-        FluggerDataType.ENUM => _resolveModelGeneratorByModelType(model.modelType),
-        _ => throw UnsupportedError('Generator for ${model.dataType} is not supported'),
+  FluggerGenerator _resolveGeneratorByDataType(FluggerModel model) =>
+      switch (model.dataType) {
+        FluggerDataType.OBJECT =>
+          _resolveModelGeneratorByModelType(model.modelType),
+        FluggerDataType.ENUM =>
+          _resolveModelGeneratorByModelType(model.modelType),
+        _ => throw UnsupportedError(
+            'Generator for ${model.dataType} is not supported'),
       };
 
   /// Resolves model generator based the current Model type from the parsed model
-  FluggerGenerator _resolveModelGeneratorByModelType(FluggerModelType type) => switch (type) {
-        FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(options: options, modelOptions: options.response),
-        FluggerModelType.REQUEST => RequestModelFluggerGenerator(options: options, modelOptions: options.request),
-        FluggerModelType.SEARCH => SearchModelFluggerGenerator(options: options, modelOptions: options.search),
-        FluggerModelType.MODEL => ModelFluggerGenerator(options: options, modelOptions: options.model),
-        FluggerModelType.ENUM => EnumFluggerGenerator(options: options, modelOptions: options.enums),
-        FluggerModelType.BASIC => throw UnsupportedError('GENERATOR FOR BASIC DATA TYPES ARE NOT VALID'),
+  FluggerGenerator _resolveModelGeneratorByModelType(FluggerModelType type) =>
+      switch (type) {
+        FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(
+            options: options, modelOptions: options.response),
+        FluggerModelType.REQUEST => RequestModelFluggerGenerator(
+            options: options, modelOptions: options.request),
+        FluggerModelType.SEARCH => SearchModelFluggerGenerator(
+            options: options, modelOptions: options.search),
+        FluggerModelType.MODEL =>
+          ModelFluggerGenerator(options: options, modelOptions: options.model),
+        FluggerModelType.ENUM =>
+          EnumFluggerGenerator(options: options, modelOptions: options.enums),
+        FluggerModelType.BASIC => throw UnsupportedError(
+            'GENERATOR FOR BASIC DATA TYPES ARE NOT VALID'),
       };
 }

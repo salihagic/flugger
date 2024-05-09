@@ -83,7 +83,8 @@ class EnumFluggerGenerator extends FluggerGenerator {
       final value = model.values[i];
       final isLast = i == model.values.length - 1;
 
-      content += '  ${model.generateEnumName().toLowerCase()}$value($value)${isLast ? ';' : ','}\n';
+      content +=
+          '  ${model.generateEnumName().toLowerCase()}$value($value)${isLast ? ';' : ','}\n';
     }
 
     return content;
