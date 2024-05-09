@@ -1,3 +1,5 @@
+export 'enum_flugger_generator.dart';
+export 'flugger_generator_result.dart';
 export 'model_flugger_generator.dart';
 export 'flugger_generator.dart';
 export 'request_model_flugger_generator.dart';

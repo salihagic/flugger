@@ -81,3 +81,23 @@ List<T> parseList<T>(List<dynamic>? map, [T Function(Map<String, dynamic> map)? 
 
 TimeOfDay? parseTimeOfDay(String? value) => value != null ? TimeOfDay(hour: int.parse(value.split(':')[0]), minute: int.parse(value.split(':')[1])) : null;
   ''';
+
+const listExtensions = '''
+extension ListX<T> on List<T> {
+  T? firstOrDefault([bool Function(T element)? test]) {
+    if (test != null) {
+      try {
+        return firstWhere(test);
+      } catch (e) {
+        return null;
+      }
+    } else {
+      try {
+        return firstWhere((T element) => true);
+      } catch (e) {
+        return null;
+      }
+    }
+  }
+}
+''';

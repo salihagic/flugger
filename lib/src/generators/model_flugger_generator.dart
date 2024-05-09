@@ -16,15 +16,15 @@ class ModelFluggerGenerator implements FluggerGenerator {
 
   /// Main generator method that starts the content generation based on options and modelOptions
   @override
-  FluggerGeneratorResult generate(Model model) {
+  FluggerGeneratorResult generate(FluggerModel model) {
     return FluggerGeneratorResult(
       model: model,
-      content: generateContent(model),
+      content: generateContent(model as ObjectFluggerModel),
     );
   }
 
   /// Generates the concrete content of the output file
-  String generateContent(Model model) {
+  String generateContent(ObjectFluggerModel model) {
     var content = '';
 
     content += '${generateImports(model)}\n';
@@ -50,7 +50,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
   }
 
   /// Generates imports on the top of the output file
-  String generateImports(Model model) {
+  String generateImports(ObjectFluggerModel model) {
     var content = '';
 
     for (final i in options.generic_imports) {
@@ -61,31 +61,29 @@ class ModelFluggerGenerator implements FluggerGenerator {
   }
 
   /// Generates the name of the class based on the models name
-  String generateName(Model model) {
-    return 'class ${model.name} {';
+  String generateName(ObjectFluggerModel model) {
+    return 'class ${model.generateClassName()} {';
   }
 
   /// Generates properties for the specified model
-  String generateProperties(Model model) {
+  String generateProperties(ObjectFluggerModel model) {
     var content = '';
 
     for (final property in model.properties) {
-      content +=
-          '  final ${property.type}${property.nullable ? '?' : ''} ${property.name};\n';
+      content += '  final ${property.generatePropertyType()}${property.generateNullableSign()} ${property.generatePropertyName()};\n';
     }
 
     return content;
   }
 
   /// Generates the constructor for the model
-  String generateConstructor(Model model) {
+  String generateConstructor(ObjectFluggerModel model) {
     var content = '';
 
-    content += '  ${model.name}({\n';
+    content += '  ${model.generateClassName()}({\n';
 
     for (final property in model.properties) {
-      content +=
-          '    ${property.nullable ? '' : 'required '}this.${property.name},\n';
+      content += '    ${property.generateRequired()}this.${property.generatePropertyName()},\n';
     }
 
     content += '  });\n';
@@ -94,18 +92,17 @@ class ModelFluggerGenerator implements FluggerGenerator {
   }
 
   /// Generates copyWith method
-  String generateCopyWith(Model model) {
+  String generateCopyWith(ObjectFluggerModel model) {
     var content = '';
 
-    content += '  ${model.name} copyWith({\n';
+    content += '  ${model.generateClassName()} copyWith({\n';
     for (final property in model.properties) {
-      content += '    ${property.type}? ${property.name},\n';
+      content += '    ${property.generatePropertyType()}? ${property.generatePropertyName()},\n';
     }
     content += '  }) {\n';
-    content += '    return ${model.name}(\n';
+    content += '    return ${model.generateClassName()}(\n';
     for (final property in model.properties) {
-      content +=
-          '      ${property.name}: ${property.name} ?? this.${property.name},\n';
+      content += '      ${property.generatePropertyName()}: ${property.generatePropertyName()} ?? this.${property.generatePropertyName()},\n';
     }
     content += '    );\n';
     content += '  }\n';
@@ -114,28 +111,26 @@ class ModelFluggerGenerator implements FluggerGenerator {
   }
 
   /// Generates fromJson method
-  String generateFromJson(Model model) {
+  String generateFromJson(ObjectFluggerModel model) {
     var content = '';
 
-    content +=
-        '  factory ${model.name}.fromJson(Map<String, dynamic> json) {\n';
-    content += '    return ${model.name}(\n';
+    content += '  factory ${model.generateClassName()}.fromJson(Map<String, dynamic> json) {\n';
+    content += '    return ${model.generateClassName()}(\n';
     for (final property in model.properties) {
       final parseMethod = switch (property.dataType) {
-        FluggerDataType.STRING => 'parseValue(\'${property.name}\')',
-        FluggerDataType.DATETIME => 'parseDate(\'${property.name}\')',
-        FluggerDataType.INT => 'parseValue(\'${property.name}\')',
-        FluggerDataType.DOUBLE => 'parseDouble(\'${property.name}\')',
-        FluggerDataType.BOOL => 'parseValue(\'${property.name}\')',
-        FluggerDataType.LIST =>
-          'parseList(\'${property.name}\'${property.templateDataType != null ? ', ${property.type}.fromJson' : ''})',
-        FluggerDataType.ENUM =>
-          'parseEnum(\'${property.name}\', ${property.type}.parse)',
-        FluggerDataType.OBJECT =>
-          'parse(\'${property.name}\', ${property.type}.fromJson)',
+        FluggerDataType.STRING => property.generateParseMethod(),
+        // TODO: add generateParseMethod to DateTimeFluggerModel
+        FluggerDataType.DATETIME => 'parseDate(\'${property.generatePropertyName()}\')',
+        FluggerDataType.INT => property.generateParseMethod(),
+        FluggerDataType.DOUBLE => property.generateParseMethod(),
+        FluggerDataType.BOOL => property.generateParseMethod(),
+        FluggerDataType.LIST => property.generateParseMethod(),
+        FluggerDataType.ENUM => property.generateParseMethod(),
+        FluggerDataType.OBJECT => property.generateParseMethod(),
+        FluggerDataType.REFERENCE => property.generateParseMethod(),
       };
 
-      content += '      ${property.name}: json.$parseMethod,\n';
+      content += '      ${property.generatePropertyName()}: json.$parseMethod,\n';
     }
     content += '    );\n';
     content += '  }\n';
@@ -144,13 +139,13 @@ class ModelFluggerGenerator implements FluggerGenerator {
   }
 
   /// Generates toJson method
-  String generateToJson(Model model) {
+  String generateToJson(ObjectFluggerModel model) {
     var content = '';
 
     content += '  Map<String, dynamic> toJson() {\n';
     content += '    return <String, dynamic>{\n';
     for (final property in model.properties) {
-      content += '      \'${property.name}\': ${property.name},\n';
+      content += '      \'${property.generatePropertyName()}\': ${property.generatePropertyName()},\n';
     }
     content += '    };\n';
     content += '  }\n';

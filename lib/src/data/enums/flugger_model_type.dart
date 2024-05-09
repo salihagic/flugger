@@ -7,7 +7,9 @@ enum FluggerModelType {
   REQUEST('request'),
   RESPONSE('response'),
   SEARCH('search'),
-  MODEL('model');
+  MODEL('model'),
+  ENUM('enum'),
+  BASIC('basic');
 
   final String value;
 
@@ -38,6 +40,22 @@ enum FluggerModelType {
       return FluggerModelType.SEARCH;
     }
 
-    return FluggerModelType.MODEL;
+    if ([
+      options.model.name_part_to_remove,
+      options.model.name_sufix,
+      'Model',
+    ].any((x) => name.toLowerCase().contains(x.toLowerCase()))) {
+      return FluggerModelType.MODEL;
+    }
+
+    if ([
+      options.enums.name_part_to_remove,
+      options.enums.name_sufix,
+      'Enum',
+    ].any((x) => name.toLowerCase().contains(x.toLowerCase()))) {
+      return FluggerModelType.ENUM;
+    }
+
+    return FluggerModelType.BASIC;
   }
 }
