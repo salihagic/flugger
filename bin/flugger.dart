@@ -36,15 +36,15 @@ Future<FluggerOptions> loadOptionsForLocalTesting() async {
       convention: FluggerFolderNamingConvention.namespace,
     ),
     generic_imports: [
-      '../../../generated/_all.dart',
+      '../_all.dart',
     ],
     request: ModelFluggerOptions.initialRequest(),
     response: ModelFluggerOptions.initialResponse(),
     search: ModelFluggerOptions.initialSearch(),
     model: ModelFluggerOptions.initialModel(),
     enums: EnumFluggerOptions.initial(),
-    models_output_path: './generated/',
-    extensions_output_path: './generated/',
+    models_output_path: './lib/domain/',
+    extensions_output_path: './lib/domain/',
     swagger: SwaggerFluggerOptions(
       url:
           'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json',

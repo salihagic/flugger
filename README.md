@@ -29,11 +29,11 @@ Configure Flugger by creating a `flugger.yaml` file in your project root. Below 
 
 ```yaml
 generic_imports:
-  - '../../generated/_all.dart'
+  - '../_all.dart'
 swagger:
   url: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json'
-models_output_path: './lib/generated/'
-extensions_output_path: './lib/generated/'
+models_output_path: './lib/domain/'
+extensions_output_path: './lib/domain/'
 structure:
   type: structured # options: structured, one_folder, one_file
   convention: namespace # options: namespace, type
