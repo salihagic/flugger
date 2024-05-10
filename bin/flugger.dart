@@ -36,15 +36,15 @@ Future<FluggerOptions> loadOptionsForLocalTesting() async {
       convention: FluggerFolderNamingConvention.namespace,
     ),
     generic_imports: [
-      '../../generated/_all.dart',
+      '../../../generated/_all.dart',
     ],
     request: ModelFluggerOptions.initialRequest(),
     response: ModelFluggerOptions.initialResponse(),
     search: ModelFluggerOptions.initialSearch(),
     model: ModelFluggerOptions.initialModel(),
     enums: EnumFluggerOptions.initial(),
-    destination_path_prefix: './generated/',
-    extensions_destination_path_prefix: './generated/',
+    models_output_path: './generated/',
+    extensions_output_path: './generated/',
     swagger: SwaggerFluggerOptions(
       url:
           'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json',
@@ -72,8 +72,7 @@ FluggerWriter resolveWriter(FluggerOptions options) =>
     switch (options.structure.type) {
       FluggerStructureType.structured =>
         StructuredFluggerWriter(options: options),
-      FluggerStructureType.all_in_one_file =>
-        OneFileFluggerWriter(options: options),
-      FluggerStructureType.all_in_one_folder =>
+      FluggerStructureType.one_file => OneFileFluggerWriter(options: options),
+      FluggerStructureType.one_folder =>
         OneFolderFluggerWriter(options: options),
     };

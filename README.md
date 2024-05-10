@@ -1,4 +1,3 @@
-
 # Flugger
 
 Flugger is a powerful command-line interface (CLI) tool designed to streamline the development process in Flutter applications by automatically generating Dart models from Swagger API definitions. It ensures a quick and error-free integration of complex APIs into Flutter projects by parsing Swagger API documents and creating ready-to-use Dart models.
@@ -33,11 +32,11 @@ generic_imports:
   - '../../generated/_all.dart'
 swagger:
   url: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json'
-destination_path_prefix: './lib/generated/'
-extensions_destination_path_prefix: './lib/generated/'
+output_path: './lib/generated/'
+extensions_output_path: './lib/generated/'
 structure:
-  type: structured
-  convention: namespace
+  type: structured # options: structured, one_folder, one_file
+  convention: namespace # options: namespace, type
 request:
   name_sufix: 'RequestModel' 
   name_part_to_remove: 'Request' 

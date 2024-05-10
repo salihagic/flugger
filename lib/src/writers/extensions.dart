@@ -1,7 +1,13 @@
 /// Helper extensions that are used by the generated models from this tool
 const mapExtensions = '''
-import 'package:flutter/material.dart';
+$mapExtensionsImport
 
+$mapExtensionsWithoutImports
+  ''';
+
+const mapExtensionsImport = 'import \'package:flutter/material.dart\';';
+
+const mapExtensionsWithoutImports = '''
 extension MapStringDynamicX on Map<String, dynamic>? {
   /// For parsing objects of some class type that has it's own parse (eg. fromJson method)
   T? parse<T>(String key, T? Function(Map<String, dynamic> map) parser) {

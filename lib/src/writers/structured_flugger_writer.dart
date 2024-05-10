@@ -12,10 +12,15 @@ class StructuredFluggerWriter extends FluggerWriter {
     await super.write(results);
 
     for (final result in results) {
-      await writeToFile(
-        '${options.destination_path_prefix}${_resolveParentFolder(result)}${result.model.fileName}',
-        result.content,
-      );
+      final path =
+          '${options.models_output_path}${_resolveParentFolder(result)}${result.model.fileName}';
+
+      if (result.imports.isEmpty) {
+        await writeToFile(path, result.content);
+      } else {
+        await writeToFile(path, '${result.imports.join()}\n');
+        await appendToFile(path, result.content);
+      }
     }
 
     await super.finalWrite();

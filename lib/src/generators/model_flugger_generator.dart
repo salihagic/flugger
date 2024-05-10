@@ -17,31 +17,18 @@ class ModelFluggerGenerator implements FluggerGenerator {
   /// Main generator method that starts the content generation based on options and modelOptions
   @override
   FluggerGeneratorResult generate(FluggerModel model) {
+    final objectFluggerModel = model as ObjectFluggerModel;
+
     return FluggerGeneratorResult(
       model: model,
-      content: generateContent(model as ObjectFluggerModel),
+      imports: generateImports(objectFluggerModel),
+      content: generateContent(objectFluggerModel),
     );
   }
 
   /// Generates the concrete content of the output file
   String generateContent(ObjectFluggerModel model) {
     var content = '';
-
-    if (modelOptions.fromJson ||
-        model.properties.any((x) =>
-            [
-              FluggerDataType.OBJECT,
-              FluggerDataType.REFERENCE,
-              FluggerDataType.ENUM,
-            ].contains(x.dataType) ||
-            (x is ListFluggerModel &&
-                [
-                  FluggerDataType.OBJECT,
-                  FluggerDataType.REFERENCE,
-                  FluggerDataType.ENUM,
-                ].contains(x.templateDataType?.dataType)))) {
-      content += '${generateImports(model)}\n';
-    }
 
     content += '${generateName(model)}\n';
     content += '${generateProperties(model)}\n';
@@ -65,14 +52,28 @@ class ModelFluggerGenerator implements FluggerGenerator {
   }
 
   /// Generates imports on the top of the output file
-  String generateImports(ObjectFluggerModel model) {
-    var content = '';
+  List<String> generateImports(ObjectFluggerModel model) {
+    final imports = <String>[];
 
-    for (final i in options.generic_imports) {
-      content += 'import \'$i\';\n';
+    if (modelOptions.fromJson ||
+        model.properties.any((x) =>
+            [
+              FluggerDataType.OBJECT,
+              FluggerDataType.REFERENCE,
+              FluggerDataType.ENUM,
+            ].contains(x.dataType) ||
+            (x is ListFluggerModel &&
+                [
+                  FluggerDataType.OBJECT,
+                  FluggerDataType.REFERENCE,
+                  FluggerDataType.ENUM,
+                ].contains(x.templateDataType?.dataType)))) {
+      for (final i in options.generic_imports) {
+        imports.add('import \'$i\';\n');
+      }
     }
 
-    return content;
+    return imports.toSet().toList();
   }
 
   /// Generates the name of the class based on the models name

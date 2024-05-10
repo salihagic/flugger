@@ -1,3 +1,6 @@
+## 0.1.0
+* Support for one_file and one_folder output writers added
+
 ## 0.0.7
 * Updated docs
 

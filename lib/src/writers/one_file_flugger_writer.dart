@@ -7,6 +7,20 @@ class OneFileFluggerWriter extends FluggerWriter {
     required super.options,
   });
 
+  /// Starts the process of writting the file/folders
   @override
-  Future<void> write(List<FluggerGeneratorResult> results) async {}
+  Future<void> write(List<FluggerGeneratorResult> results) async {
+    final path = '${options.models_output_path}/generated.dart';
+    final imports = results.expand((result) => result.imports).toSet().toList()
+      ..add(mapExtensionsImport);
+
+    await writeToFile(path, '${imports.join()}\n\n');
+
+    for (final result in results) {
+      await appendToFile(path, result.content);
+    }
+
+    await appendToFile(path, mapExtensionsWithoutImports);
+    await appendToFile(path, listExtensions);
+  }
 }

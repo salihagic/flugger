@@ -34,9 +34,12 @@ class EnumFluggerGenerator extends FluggerGenerator {
   /// Main generator method that starts the content generation based on options and modelOptions
   @override
   FluggerGeneratorResult generate(FluggerModel model) {
+    final enumFluggerModel = model as EnumFluggerModel;
+
     return FluggerGeneratorResult(
       model: model,
-      content: generateContent(model as EnumFluggerModel),
+      imports: generateImports(enumFluggerModel),
+      content: generateContent(enumFluggerModel),
     );
   }
 
@@ -44,7 +47,6 @@ class EnumFluggerGenerator extends FluggerGenerator {
   String generateContent(EnumFluggerModel model) {
     var content = '';
 
-    content += '${generateImports(model)}\n';
     content += '${generateName(model)}\n';
     content += '${generateValues(model)}\n';
     content += '${generateValueProp(model)}\n';
@@ -60,14 +62,14 @@ class EnumFluggerGenerator extends FluggerGenerator {
   }
 
   /// Generates imports on the top of the output file
-  String generateImports(EnumFluggerModel model) {
-    var content = '';
+  List<String> generateImports(EnumFluggerModel model) {
+    final imports = <String>[];
 
     for (final i in options.generic_imports) {
-      content += 'import \'$i\';\n';
+      imports.add('import \'$i\';\n');
     }
 
-    return content;
+    return imports.toSet().toList();
   }
 
   /// Generates the name of the class based on the models name
