@@ -32,7 +32,7 @@ generic_imports:
   - '../../generated/_all.dart'
 swagger:
   url: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json'
-output_path: './lib/generated/'
+models_output_path: './lib/generated/'
 extensions_output_path: './lib/generated/'
 structure:
   type: structured # options: structured, one_folder, one_file
