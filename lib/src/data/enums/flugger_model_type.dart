@@ -20,7 +20,8 @@ enum FluggerModelType {
       options.request.name_part_to_remove,
       options.request.name_sufix,
       'Request',
-    ].any((x) => name.toLowerCase().contains(x.toLowerCase()))) {
+    ].any(
+        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
       return FluggerModelType.REQUEST;
     }
 
@@ -28,7 +29,8 @@ enum FluggerModelType {
       options.response.name_part_to_remove,
       options.response.name_sufix,
       'Response',
-    ].any((x) => name.toLowerCase().contains(x.toLowerCase()))) {
+    ].any(
+        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
       return FluggerModelType.RESPONSE;
     }
 
@@ -36,7 +38,8 @@ enum FluggerModelType {
       options.search.name_part_to_remove,
       options.search.name_sufix,
       'Search',
-    ].any((x) => name.toLowerCase().contains(x.toLowerCase()))) {
+    ].any(
+        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
       return FluggerModelType.SEARCH;
     }
 
@@ -44,7 +47,8 @@ enum FluggerModelType {
       options.model.name_part_to_remove,
       options.model.name_sufix,
       'Model',
-    ].any((x) => name.toLowerCase().contains(x.toLowerCase()))) {
+    ].any(
+        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
       return FluggerModelType.MODEL;
     }
 
@@ -52,10 +56,11 @@ enum FluggerModelType {
       options.enums.name_part_to_remove,
       options.enums.name_sufix,
       'Enum',
-    ].any((x) => name.toLowerCase().contains(x.toLowerCase()))) {
+    ].any(
+        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
       return FluggerModelType.ENUM;
     }
 
-    return FluggerModelType.BASIC;
+    return FluggerModelType.MODEL;
   }
 }

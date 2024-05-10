@@ -36,7 +36,7 @@ Future<FluggerOptions> loadOptionsForLocalTesting() async {
       convention: FluggerFolderNamingConvention.namespace,
     ),
     generic_imports: [
-      '../../../generated/_all.dart',
+      '../../generated/_all.dart',
     ],
     request: ModelFluggerOptions.initialRequest(),
     response: ModelFluggerOptions.initialResponse(),
@@ -46,7 +46,8 @@ Future<FluggerOptions> loadOptionsForLocalTesting() async {
     destination_path_prefix: './generated/',
     extensions_destination_path_prefix: './generated/',
     swagger: SwaggerFluggerOptions(
-      url: 'https://YOUR_DOMAIN.com/swagger/v1/swagger.json',
+      url:
+          'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json',
     ),
     logging: true,
   );

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flugger/flugger.dart';
 
@@ -18,7 +20,10 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
   Future<List<FluggerModel>> get() async {
     final response = await dio.get(options.swagger?.url ?? '');
 
-    return _parseModels(response.data['components']['schemas']);
+    final data =
+        response.data is String ? json.decode(response.data) : response.data;
+
+    return _parseModels(data['components']['schemas']);
   }
 
   /// General swagger parse schema method
@@ -28,6 +33,10 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
           (entry) =>
               FluggerModel.fromJson(entry.key, entry.value, options, true),
         )
+        .where((x) => [
+              FluggerDataType.OBJECT,
+              FluggerDataType.ENUM,
+            ].contains(x.dataType))
         .toList();
 
     _updateModelsReferences(models);
@@ -43,7 +52,14 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
   }
 
   void _updateModelsReferences(List<FluggerModel> models) {
-    final rootModels = models.where((x) => x.root).toList();
+    final rootModels = models
+        .where((x) =>
+            x.root &&
+            [
+              FluggerDataType.OBJECT,
+              FluggerDataType.ENUM,
+            ].contains(x.dataType))
+        .toList();
 
     for (final model in models) {
       _updateModelReferences(model, rootModels);

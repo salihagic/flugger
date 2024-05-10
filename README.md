@@ -5,7 +5,7 @@ Flugger is a powerful command-line interface (CLI) tool designed to streamline t
 
 ## Features
 
-- **Automatic Model Generation**: Generate Dart models directly from Swagger API definitions.
+- **Automatic Model Generation**: Generate Dart models directly from Swagger API definitions (>= 3.0).
 - **Custom Configuration**: Utilize `flugger.yaml` to customize generation processes based on your project needs.
 - **CLI Support**: Easy-to-use CLI for generating models on-the-go.
 
@@ -30,11 +30,11 @@ Configure Flugger by creating a `flugger.yaml` file in your project root. Below 
 
 ```yaml
 generic_imports:
-  - 'package:your_package/_all.dart'
+  - '../../generated/_all.dart'
 swagger:
-  url: 'https://yourapi.com/swagger.json'
-destination_path_prefix: './lib/models/'
-extensions_destination_path_prefix: './lib/extensions/'
+  url: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json'
+destination_path_prefix: './lib/generated/'
+extensions_destination_path_prefix: './lib/generated/'
 structure:
   type: structured
   convention: namespace
