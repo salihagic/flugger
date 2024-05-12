@@ -1,23 +1,5 @@
 import 'package:flugger/flugger.dart';
 
-// enum AssetClass {
-//   equity(1),
-//   fixedIncome(2),
-//   cashAndEquivalent(3),
-//   realEstate(4),
-//   commodity(5),
-//   preciousMetal(6),
-//   collectibleAndAlternative(7),
-//   cryptocurrency(8),
-//   hedgeFund(9),
-//   privateEquity(10),
-//   derivates(11);
-
-//   final int value;
-//   const AssetClass([this.value = 1]);
-//   static AssetClass? parse(int? index) => AssetClass.values.firstOrDefault((x) => x.value == index);
-// }
-
 /// Specific FluggerGenerator for models of ModelType Enum
 class EnumFluggerGenerator extends FluggerGenerator {
   /// Used to fetch specified generic imports to be generated in the resulting file's content
