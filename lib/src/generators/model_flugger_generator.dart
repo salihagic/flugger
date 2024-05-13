@@ -9,15 +9,20 @@ class ModelFluggerGenerator implements FluggerGenerator {
   /// Specifies what methods should be generated
   final ModelFluggerOptions modelOptions;
 
+  final Logger logger;
+
   ModelFluggerGenerator({
     required this.options,
     required this.modelOptions,
+    required this.logger,
   });
 
   /// Main generator method that starts the content generation based on options and modelOptions
   @override
   FluggerGeneratorResult generate(FluggerModel model) {
     final objectFluggerModel = model as ObjectFluggerModel;
+
+    logger.logModel(model, 'GENERATING CONTENT');
 
     return FluggerGeneratorResult(
       model: model,

@@ -12,8 +12,7 @@ class StructuredFluggerWriter extends FluggerWriter {
     await super.write(results);
 
     for (final result in results) {
-      final path =
-          '${options.models_output_path}${_resolveParentFolder(result)}${result.model.fileName}';
+      final path = '${_resolveParentFolder(result)}${result.model.fileName}';
 
       if (result.imports.isEmpty) {
         await writeToFile(path, result.content);
@@ -26,40 +25,45 @@ class StructuredFluggerWriter extends FluggerWriter {
     await super.finalWrite();
   }
 
-  /// Resolves the name of the parent folder for the current file (FluggerGeneratorResult)
-  String _resolveParentFolder(FluggerGeneratorResult result) =>
-      switch (options.structure.convention) {
-        FluggerFolderNamingConvention.namespace =>
-          '${_resolveParentFolderByNamespace(result)}/${_resolveParentFolderByModelType(result.model.modelType)}/',
-        FluggerFolderNamingConvention.type =>
-          '/${_resolveParentFolderByModelType(result.model.modelType)}/',
-      };
-
-  /// Resolves the name of the parent folder for the current file (FluggerGeneratorResult)
-  String _resolveParentFolderByNamespace(FluggerGeneratorResult result) =>
-      result.model.namespace.isNotEmpty ? '/${result.model.namespace}' : '';
-
   /// Resolves the name of the parent folder for the current file (FluggerModelType)
-  String _resolveParentFolderByModelType(FluggerModelType modelType) =>
-      switch (modelType) {
-        FluggerModelType.REQUEST =>
-          options.request.parent_folder_name.isNotEmpty
-              ? options.request.parent_folder_name
-              : 'request_models',
-        FluggerModelType.RESPONSE =>
-          options.response.parent_folder_name.isNotEmpty
-              ? options.response.parent_folder_name
-              : 'response_models',
-        FluggerModelType.SEARCH => options.search.parent_folder_name.isNotEmpty
-            ? options.search.parent_folder_name
-            : 'search_models',
-        FluggerModelType.MODEL => options.model.parent_folder_name.isNotEmpty
-            ? options.model.parent_folder_name
-            : 'models',
-        FluggerModelType.ENUM => options.enums.parent_folder_name.isNotEmpty
-            ? options.enums.parent_folder_name
-            : 'enums',
-        FluggerModelType.BASIC =>
-          throw UnsupportedError('BASIC DATA TYPES SHOULD NOT BE GENERATED'),
-      };
+  String _resolveParentFolder(FluggerGeneratorResult result) {
+    final parentFolder = switch (result.model.modelType) {
+      FluggerModelType.REQUEST => _combinePath(
+          options.models_output_path,
+          options.request.parent_folder_name,
+          'request_models',
+          _resolveParentFolderMaybeByNamespace(result)),
+      FluggerModelType.RESPONSE => _combinePath(
+          options.models_output_path,
+          options.response.parent_folder_name,
+          'response_models',
+          _resolveParentFolderMaybeByNamespace(result)),
+      FluggerModelType.SEARCH => _combinePath(
+          options.models_output_path,
+          options.search.parent_folder_name,
+          'search_models',
+          _resolveParentFolderMaybeByNamespace(result)),
+      FluggerModelType.MODEL => _combinePath(
+          options.models_output_path,
+          options.model.parent_folder_name,
+          'models',
+          _resolveParentFolderMaybeByNamespace(result)),
+      FluggerModelType.ENUM => _combinePath(
+          options.enums_output_path, options.enums.parent_folder_name, 'enums'),
+      FluggerModelType.BASIC =>
+        throw UnsupportedError('BASIC DATA TYPES SHOULD NOT BE GENERATED'),
+    };
+
+    return parentFolder;
+  }
+
+  String _resolveParentFolderMaybeByNamespace(FluggerGeneratorResult result) =>
+      result.model.namespace.isNotEmpty ? '${result.model.namespace}/' : '';
+  String _combinePath(String basePath, String parentFolderName,
+          String defaultParentFolderName,
+          [String namespace = '']) =>
+      '$basePath$namespace${_coallesceParentFolderName(parentFolderName, defaultParentFolderName)}/';
+  String _coallesceParentFolderName(
+          String parentFolderName, String defaultParentFolderName) =>
+      parentFolderName.isNotEmpty ? parentFolderName : defaultParentFolderName;
 }

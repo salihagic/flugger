@@ -5,5 +5,6 @@ class RequestModelFluggerGenerator extends ModelFluggerGenerator {
   RequestModelFluggerGenerator({
     required super.options,
     required super.modelOptions,
+    required super.logger,
   });
 }

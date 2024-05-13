@@ -15,10 +15,13 @@ class Flugger {
   /// Schema repository fetches or resolves the list of models based on the input source (currently only available is swagger)
   final SchemaRepository schemaRepository;
 
+  final Logger logger;
+
   Flugger({
     required FluggerOptions pOptions,
     required this.writer,
     required this.schemaRepository,
+    required this.logger,
   }) {
     options = pOptions;
   }
@@ -51,15 +54,14 @@ class Flugger {
   FluggerGenerator _resolveModelGeneratorByModelType(FluggerModelType type) =>
       switch (type) {
         FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(
-            options: options, modelOptions: options.response),
+            options: options, modelOptions: options.response, logger: logger),
         FluggerModelType.REQUEST => RequestModelFluggerGenerator(
-            options: options, modelOptions: options.request),
+            options: options, modelOptions: options.request, logger: logger),
         FluggerModelType.SEARCH => SearchModelFluggerGenerator(
-            options: options, modelOptions: options.search),
-        FluggerModelType.MODEL =>
-          ModelFluggerGenerator(options: options, modelOptions: options.model),
-        FluggerModelType.ENUM =>
-          EnumFluggerGenerator(options: options, modelOptions: options.enums),
+            options: options, modelOptions: options.search, logger: logger),
+        FluggerModelType.MODEL => ModelFluggerGenerator(
+            options: options, modelOptions: options.model, logger: logger),
+        FluggerModelType.ENUM => EnumFluggerGenerator(options: options),
         FluggerModelType.BASIC => throw UnsupportedError(
             'GENERATOR FOR BASIC DATA TYPES ARE NOT VALID'),
       };

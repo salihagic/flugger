@@ -11,14 +11,17 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
   /// http client to fetch the data
   final Dio dio;
 
+  final Logger logger;
+
   SwaggerRemoteSchemaRepository({
     required this.options,
     required this.dio,
+    required this.logger,
   });
 
   @override
   Future<List<FluggerModel>> get() async {
-    final response = await dio.get(options.swagger?.url ?? '');
+    final response = await dio.get(options.url ?? '');
 
     final data =
         response.data is String ? json.decode(response.data) : response.data;
@@ -29,10 +32,11 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
   /// General swagger parse schema method
   Future<List<FluggerModel>> _parseModels(Map<String, dynamic> data) async {
     final models = data.entries
-        .map<FluggerModel>(
-          (entry) =>
-              FluggerModel.fromJson(entry.key, entry.value, options, true),
-        )
+        .map<FluggerModel>((entry) {
+          logger.log('PARSING MODEL', entry.key);
+
+          return FluggerModel.fromJson(entry.key, entry.value, options, true);
+        })
         .where((x) => [
               FluggerDataType.OBJECT,
               FluggerDataType.ENUM,
@@ -40,13 +44,6 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
         .toList();
 
     _updateModelsReferences(models);
-
-    if (options.logging) {
-      for (final model in models) {
-        // ignore: avoid_print
-        print('${model.toString()}\n');
-      }
-    }
 
     return models;
   }

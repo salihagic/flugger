@@ -5,5 +5,6 @@ class SearchModelFluggerGenerator extends ModelFluggerGenerator {
   SearchModelFluggerGenerator({
     required super.options,
     required super.modelOptions,
+    required super.logger,
   });
 }

@@ -5,12 +5,8 @@ class EnumFluggerGenerator extends FluggerGenerator {
   /// Used to fetch specified generic imports to be generated in the resulting file's content
   final FluggerOptions options;
 
-  /// Specifies what methods should be generated
-  final EnumFluggerOptions modelOptions;
-
   EnumFluggerGenerator({
     required this.options,
-    required this.modelOptions,
   });
 
   /// Main generator method that starts the content generation based on options and modelOptions
@@ -34,9 +30,7 @@ class EnumFluggerGenerator extends FluggerGenerator {
     content += '${generateValueProp(model)}\n';
     content += generateConstructor(model);
 
-    if (modelOptions.parse) {
-      content += '\n${generateParse(model)}';
-    }
+    content += '\n${generateParse(model)}';
 
     content += '}\n';
 

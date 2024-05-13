@@ -1,3 +1,8 @@
+## 0.1.3
+* Options updated (yaml changes)
+* Folder structure, naming convention (bugfix)
+* Logger added (yaml logging: true)
+
 ## 0.1.2
 * Docs updated
 

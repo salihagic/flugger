@@ -30,13 +30,11 @@ Configure Flugger by creating a `flugger.yaml` file in your project root. Below 
 ```yaml
 generic_imports:
   - '../_all.dart'
-swagger:
-  url: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json'
-models_output_path: './lib/domain/'
-extensions_output_path: './lib/domain/'
-structure:
-  type: structured # options: structured, one_folder, one_file
-  convention: namespace # options: namespace, type
+url: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json'
+models_output_path: './lib/gen/'
+enums_output_path: './lib/gen/'
+extensions_output_path: './lib/gen/'
+structure: structured # options: structured, one_folder, one_file
 request:
   name_sufix: 'RequestModel' 
   name_part_to_remove: 'Request' 
@@ -69,7 +67,7 @@ enums:
   name_sufix: ''
   name_part_to_remove: ''
   parent_folder_name: 'enums'
-  parse: true
+logging: true
 ```
 
 ## Usage

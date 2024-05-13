@@ -7,12 +7,13 @@ import 'package:yaml/yaml.dart';
 /// This is the entry point of this tool
 /// This method gets executed once the command dart run flugger is run in the terminal of the project where the flugger package is installed in dev_dependencies
 Future<void> main(List<String> arguments) async {
-  final options = await loadOptions();
+  final options = await loadOptionsForLocalTesting();
 
   final generator = Flugger(
     pOptions: options,
     schemaRepository: resolveSchemaRepository(options),
     writer: resolveWriter(options),
+    logger: resolveLogger(options),
   );
 
   generator.execute();
@@ -31,10 +32,7 @@ Future<FluggerOptions> loadOptions() async {
 /// Loads local Flugger options for testing purposes
 Future<FluggerOptions> loadOptionsForLocalTesting() async {
   return FluggerOptions(
-    structure: StructureFluggerOptions(
-      type: FluggerStructureType.structured,
-      convention: FluggerFolderNamingConvention.namespace,
-    ),
+    structure: FluggerStructureType.structured,
     generic_imports: [
       '../_all.dart',
     ],
@@ -43,25 +41,23 @@ Future<FluggerOptions> loadOptionsForLocalTesting() async {
     search: ModelFluggerOptions.initialSearch(),
     model: ModelFluggerOptions.initialModel(),
     enums: EnumFluggerOptions.initial(),
-    models_output_path: './lib/domain/',
-    extensions_output_path: './lib/domain/',
-    swagger: SwaggerFluggerOptions(
-      url:
-          'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json',
-    ),
+    models_output_path: './lib/gen/',
+    enums_output_path: './lib/gen/',
+    extensions_output_path: './lib/gen/',
+    url:
+        'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json',
     logging: true,
   );
 }
 
 /// Resolved schema repository based on flugger.yaml options provided
 SchemaRepository resolveSchemaRepository(FluggerOptions options) {
-  if (options.swagger != null) {
-    if (options.swagger?.url != null) {
-      return SwaggerRemoteSchemaRepository(
-        options: options,
-        dio: Dio(),
-      );
-    }
+  if (options.url != null) {
+    return SwaggerRemoteSchemaRepository(
+      options: options,
+      dio: Dio(),
+      logger: resolveLogger(options),
+    );
   }
 
   throw UnsupportedError('Unsupported source');
@@ -69,10 +65,14 @@ SchemaRepository resolveSchemaRepository(FluggerOptions options) {
 
 /// Resolves a file/s writer based on the specified Flugger structure type in flugger.yaml file in the parent project which uses flugger as it's tool in dev_dependencies
 FluggerWriter resolveWriter(FluggerOptions options) =>
-    switch (options.structure.type) {
+    switch (options.structure) {
       FluggerStructureType.structured =>
         StructuredFluggerWriter(options: options),
       FluggerStructureType.one_file => OneFileFluggerWriter(options: options),
       FluggerStructureType.one_folder =>
         OneFolderFluggerWriter(options: options),
     };
+
+/// Resolves a logger based on configuration
+Logger resolveLogger(FluggerOptions options) =>
+    options.logging ? LoggerImpl(options: options) : EmptyLoggerImpl();

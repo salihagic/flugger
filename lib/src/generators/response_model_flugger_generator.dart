@@ -5,5 +5,6 @@ class ResponseModelFluggerGenerator extends ModelFluggerGenerator {
   ResponseModelFluggerGenerator({
     required super.options,
     required super.modelOptions,
+    required super.logger,
   });
 }
