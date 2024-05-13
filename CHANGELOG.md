@@ -1,3 +1,6 @@
+## 0.1.4
+* Minor fixes
+
 ## 0.1.3
 * Options updated (yaml changes)
 * Folder structure, naming convention (bugfix)

@@ -7,7 +7,7 @@ import 'package:yaml/yaml.dart';
 /// This is the entry point of this tool
 /// This method gets executed once the command dart run flugger is run in the terminal of the project where the flugger package is installed in dev_dependencies
 Future<void> main(List<String> arguments) async {
-  final options = await loadOptionsForLocalTesting();
+  final options = await loadOptions();
 
   final generator = Flugger(
     pOptions: options,
