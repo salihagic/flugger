@@ -1,11 +1,10 @@
 name: flugger
 description: "Map Swagger models to Flutter/Dart models in your project"
-version: 0.1.4
+version: 0.1.5
 repository: https://github.com/salihagic/flugger
 
 environment:
-  sdk: '>=3.3.3 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
   flutter:

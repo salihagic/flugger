@@ -1,3 +1,6 @@
+## 0.1.5
+* Changed Dart version
+
 ## 0.1.4
 * Minor fixes
 
