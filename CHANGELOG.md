@@ -1,3 +1,6 @@
+## 0.1.6
+* Conditionally pass parameters if they are null in toJson method
+
 ## 0.1.5
 * Changed Dart version
 

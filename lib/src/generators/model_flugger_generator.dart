@@ -172,7 +172,7 @@ class ModelFluggerGenerator implements FluggerGenerator {
     content += '    return <String, dynamic>{\n';
     for (final property in model.properties) {
       content +=
-          '      \'${property.generatePropertyName()}\': ${property.generatePropertyName()},\n';
+          '      if(${property.generatePropertyName()} != null) \'${property.generatePropertyName()}\': ${property.generatePropertyName()},\n';
     }
     content += '    };\n';
     content += '  }\n';

@@ -63,8 +63,8 @@ class ModelFluggerOptions {
 
   /// Default values for basic Model
   factory ModelFluggerOptions.initialModel() => ModelFluggerOptions(
-        name_sufix: 'Model',
-        name_part_to_remove: 'Model',
+        name_sufix: '',
+        name_part_to_remove: '',
         parent_folder_name: 'models',
         copyWith: true,
         fromJson: true,
