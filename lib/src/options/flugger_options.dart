@@ -20,6 +20,9 @@ class FluggerOptions {
   /// Specifies a list of generic imports that will be generated at the top of every generated file by this tool
   final List<String> generic_imports;
 
+  /// Specifies a list of API model/enum names that should be ignored when generating dart models/enums
+  final List<String> models_to_ignore;
+
   /// Options for model of type Request (usually have name sufix RequestModel and generate copyWith and toJson methods)
   final ModelFluggerOptions request;
 
@@ -47,6 +50,7 @@ class FluggerOptions {
     required this.enums_output_path,
     required this.extensions_output_path,
     required this.generic_imports,
+    required this.models_to_ignore,
     required this.request,
     required this.response,
     required this.search,
@@ -67,6 +71,9 @@ class FluggerOptions {
       extensions_output_path: map['extensions_output_path'] ?? '',
       generic_imports:
           map['generic_imports']?.map<String>((x) => x as String).toList() ??
+              [],
+      models_to_ignore:
+          map['models_to_ignore']?.map<String>((x) => x as String).toList() ??
               [],
       request: map['request'] != null
           ? ModelFluggerOptions.fromYamlMap(map['request'])

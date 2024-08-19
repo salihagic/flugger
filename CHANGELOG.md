@@ -1,3 +1,6 @@
+## 0.1.7
+* Added models_to_ignore prop for flugger.yaml as a list of model names that should be ignored while generating dart models based on the schema
+
 ## 0.1.6
 * Conditionally pass parameters if they are null in toJson method
 

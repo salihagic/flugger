@@ -20,17 +20,19 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
   });
 
   @override
-  Future<List<FluggerModel>> get() async {
+  Future<List<FluggerModel>> get(
+      [List<String> modelsToIgnore = const []]) async {
     final response = await dio.get(options.url ?? '');
 
     final data =
         response.data is String ? json.decode(response.data) : response.data;
 
-    return _parseModels(data['components']['schemas']);
+    return _parseModels(data['components']['schemas'], modelsToIgnore);
   }
 
   /// General swagger parse schema method
-  Future<List<FluggerModel>> _parseModels(Map<String, dynamic> data) async {
+  Future<List<FluggerModel>> _parseModels(
+      Map<String, dynamic> data, List<String> modelsToIgnore) async {
     final models = data.entries
         .map<FluggerModel>((entry) {
           logger.log('PARSING MODEL', entry.key);
@@ -45,7 +47,10 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
 
     _updateModelsReferences(models);
 
-    return models;
+    return models
+        .where((model) =>
+            !modelsToIgnore.contains(model.transformedOriginalDataType))
+        .toList();
   }
 
   void _updateModelsReferences(List<FluggerModel> models) {

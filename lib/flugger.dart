@@ -28,7 +28,7 @@ class Flugger {
 
   Future<void> execute() async {
     /// Fetches the models to be used in the generators
-    final models = await schemaRepository.get();
+    final models = await schemaRepository.get(options.models_to_ignore);
     final List<FluggerGeneratorResult> results = [];
 
     for (final model in models) {
