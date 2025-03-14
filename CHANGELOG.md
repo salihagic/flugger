@@ -1,3 +1,6 @@
+## 0.1.9
+* Updated dependencies
+
 ## 0.1.8
 * Added models_to_ignore prop for flugger.yaml as a list of model names that should be ignored while generating dart models based on the schema
 
