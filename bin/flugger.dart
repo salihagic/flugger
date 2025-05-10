@@ -7,6 +7,7 @@ import 'package:yaml/yaml.dart';
 /// This is the entry point of this tool
 /// This method gets executed once the command dart run flugger is run in the terminal of the project where the flugger package is installed in dev_dependencies
 Future<void> main(List<String> arguments) async {
+  // final options = await loadOptionsForLocalTesting();
   final options = await loadOptions();
 
   final generator = Flugger(
@@ -32,13 +33,11 @@ Future<FluggerOptions> loadOptions() async {
 /// Loads local Flugger options for testing purposes
 Future<FluggerOptions> loadOptionsForLocalTesting() async {
   return FluggerOptions(
-    structure: FluggerStructureType.structured,
+    structure: FluggerStructureType.one_folder,
     generic_imports: [
-      '../_all.dart',
+      'package:officeconnect/extensions/extensions.dart',
     ],
-    models_to_ignore: [
-      'ResidenceResponseModel',
-    ],
+    models_to_ignore: [],
     request: ModelFluggerOptions.initialRequest(),
     response: ModelFluggerOptions.initialResponse(),
     search: ModelFluggerOptions.initialSearch(),
@@ -47,7 +46,7 @@ Future<FluggerOptions> loadOptionsForLocalTesting() async {
     models_output_path: './lib/gen/',
     enums_output_path: './lib/gen/',
     extensions_output_path: './lib/gen/',
-    url: 'https://486d-213-91-110-31.ngrok-free.app/swagger/v1/swagger.json',
+    url: 'https://w31xnq57-8006.euw.devtunnels.ms/swagger/v1/swagger.json',
     logging: true,
   );
 }

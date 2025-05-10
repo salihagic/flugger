@@ -36,6 +36,11 @@ abstract class FluggerModel {
                 originalDataType, json, options, root, propertyName);
           }
 
+          if (json['enum'] != null) {
+            return EnumFluggerModel.fromJson(
+                originalDataType, json, options, root, propertyName);
+          }
+
           return StringFluggerModel.fromJson(
               originalDataType, json, options, root, propertyName);
         }(),

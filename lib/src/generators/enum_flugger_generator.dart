@@ -61,8 +61,12 @@ class EnumFluggerGenerator extends FluggerGenerator {
       final value = model.values[i];
       final isLast = i == model.values.length - 1;
 
-      content +=
-          '  ${model.generateEnumName().toLowerCase()}$value($value)${isLast ? ';' : ','}\n';
+      if (model.enumDataType == FluggerDataType.STRING) {
+        content += '  $value(\'$value\')${isLast ? ';' : ','}\n';
+      } else {
+        content +=
+            '  ${model.generateEnumName().toLowerCase()}$value($value)${isLast ? ';' : ','}\n';
+      }
     }
 
     return content;
@@ -75,7 +79,11 @@ class EnumFluggerGenerator extends FluggerGenerator {
 
   /// Generates the constructor for the model
   String generateConstructor(EnumFluggerModel model) {
-    return '  const ${model.generateEnumName()}([this.value = ${model.values.first}]);\n';
+    if (model.enumDataType == FluggerDataType.STRING) {
+      return '  const ${model.generateEnumName()}([this.value = \'\']);\n';
+    } else {
+      return '  const ${model.generateEnumName()}([this.value = ${model.values.first}]);\n';
+    }
   }
 
   /// Generates parse method

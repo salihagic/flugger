@@ -29,7 +29,7 @@ class EnumFluggerModel extends FluggerModel {
       modelType: FluggerModelType.ENUM,
       nullable: json['nullable'] ?? false,
       root: root,
-      enumDataType: FluggerDataType.parse(json),
+      enumDataType: FluggerDataType.fromJson(json),
       values: json['enum'].map((x) => x).toList(),
     );
   }

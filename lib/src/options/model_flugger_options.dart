@@ -33,8 +33,8 @@ class ModelFluggerOptions {
 
   /// Default values for Request models
   factory ModelFluggerOptions.initialRequest() => ModelFluggerOptions(
-        name_sufix: 'RequestModel',
-        name_part_to_remove: 'Request',
+        name_sufix: '',
+        name_part_to_remove: '',
         parent_folder_name: 'request_models',
         copyWith: true,
         fromJson: true,
@@ -43,8 +43,8 @@ class ModelFluggerOptions {
 
   /// Default values for Response models
   factory ModelFluggerOptions.initialResponse() => ModelFluggerOptions(
-        name_sufix: 'ResponseModel',
-        name_part_to_remove: 'Response',
+        name_sufix: '',
+        name_part_to_remove: 'QueryResult',
         parent_folder_name: 'response_models',
         copyWith: false,
         fromJson: true,
@@ -53,8 +53,8 @@ class ModelFluggerOptions {
 
   /// Default values for Search models
   factory ModelFluggerOptions.initialSearch() => ModelFluggerOptions(
-        name_sufix: 'SearchModel',
-        name_part_to_remove: 'Search',
+        name_sufix: '',
+        name_part_to_remove: '',
         parent_folder_name: 'search_models',
         copyWith: true,
         fromJson: false,

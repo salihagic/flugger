@@ -44,13 +44,13 @@ class Model {
     bool isRootModel = true,
     FluggerModelType? pModelType,
   ]) {
-    final dataType = FluggerDataType.parse(map);
+    final dataType = FluggerDataType.fromJson(map);
     final dataTypeObjectName =
         map['\$ref']?.replaceAll('#/components/schemas/', '')?.split('.')?.last;
 
     final templateDataType =
         dataType == FluggerDataType.LIST && map['items'] != null
-            ? FluggerDataType.parse(map['items'])
+            ? FluggerDataType.fromJson(map['items'])
             : null;
     final templateDataTypeObjectType =
         dataType == FluggerDataType.LIST && map['items']?['\$ref'] != null

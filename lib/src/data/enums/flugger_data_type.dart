@@ -16,7 +16,7 @@ enum FluggerDataType {
 
   const FluggerDataType(this.value);
 
-  static FluggerDataType parse(Map<String, dynamic> json) {
+  static FluggerDataType fromJson(Map<String, dynamic> json) {
     return switch (json['type']) {
       'string' => () {
           if (json['format'] == 'date-time') {
