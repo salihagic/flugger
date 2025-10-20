@@ -42,11 +42,11 @@ class NumberFluggerModel extends FluggerModel {
 
   @override
   String toString() => {
-        'originalDataType': originalDataType,
-        'dataType': dataType.value,
-        'nullable': nullable,
-        'root': root,
-      }.toString();
+    'originalDataType': originalDataType,
+    'dataType': dataType.value,
+    'nullable': nullable,
+    'root': root,
+  }.toString();
 
   @override
   String generateParseMethod() =>

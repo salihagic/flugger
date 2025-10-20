@@ -1,5 +1,6 @@
 /// Helper extensions that are used by the generated models from this tool
-const mapExtensions = '''
+const mapExtensions =
+    '''
 $mapExtensionsImport
 
 $mapExtensionsWithoutImports

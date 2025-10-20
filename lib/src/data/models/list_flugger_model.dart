@@ -27,19 +27,22 @@ class ListFluggerModel extends FluggerModel {
       modelType: FluggerModelType.BASIC,
       nullable: json['nullable'] ?? false,
       root: root,
-      templateDataType:
-          FluggerModel.fromJson(originalDataType, json['items'], options),
+      templateDataType: FluggerModel.fromJson(
+        originalDataType,
+        json['items'],
+        options,
+      ),
     );
   }
 
   @override
   String toString() => {
-        'originalDataType': originalDataType,
-        'dataType': dataType.value,
-        'nullable': nullable,
-        'root': root,
-        'templateDataType': templateDataType.toString(),
-      }.toString();
+    'originalDataType': originalDataType,
+    'dataType': dataType.value,
+    'nullable': nullable,
+    'root': root,
+    'templateDataType': templateDataType.toString(),
+  }.toString();
 
   @override
   String generatePropertyType() => 'List<${generateTemplateDataType()}>';

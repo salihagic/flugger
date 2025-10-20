@@ -1,5 +1,3 @@
-library flugger;
-
 import 'src/_all.dart';
 export 'src/_all.dart';
 
@@ -42,27 +40,43 @@ class Flugger {
 
   FluggerGenerator _resolveGeneratorByDataType(FluggerModel model) =>
       switch (model.dataType) {
-        FluggerDataType.OBJECT =>
-          _resolveModelGeneratorByModelType(model.modelType),
-        FluggerDataType.ENUM =>
-          _resolveModelGeneratorByModelType(model.modelType),
+        FluggerDataType.OBJECT => _resolveModelGeneratorByModelType(
+          model.modelType,
+        ),
+        FluggerDataType.ENUM => _resolveModelGeneratorByModelType(
+          model.modelType,
+        ),
         _ => throw UnsupportedError(
-            'Generator for ${model.dataType} is not supported'),
+          'Generator for ${model.dataType} is not supported',
+        ),
       };
 
   /// Resolves model generator based the current Model type from the parsed model
   FluggerGenerator _resolveModelGeneratorByModelType(FluggerModelType type) =>
       switch (type) {
         FluggerModelType.RESPONSE => ResponseModelFluggerGenerator(
-            options: options, modelOptions: options.response, logger: logger),
+          options: options,
+          modelOptions: options.response,
+          logger: logger,
+        ),
         FluggerModelType.REQUEST => RequestModelFluggerGenerator(
-            options: options, modelOptions: options.request, logger: logger),
+          options: options,
+          modelOptions: options.request,
+          logger: logger,
+        ),
         FluggerModelType.SEARCH => SearchModelFluggerGenerator(
-            options: options, modelOptions: options.search, logger: logger),
+          options: options,
+          modelOptions: options.search,
+          logger: logger,
+        ),
         FluggerModelType.MODEL => ModelFluggerGenerator(
-            options: options, modelOptions: options.model, logger: logger),
+          options: options,
+          modelOptions: options.model,
+          logger: logger,
+        ),
         FluggerModelType.ENUM => EnumFluggerGenerator(options: options),
         FluggerModelType.BASIC => throw UnsupportedError(
-            'GENERATOR FOR BASIC DATA TYPES ARE NOT VALID'),
+          'GENERATOR FOR BASIC DATA TYPES ARE NOT VALID',
+        ),
       };
 }

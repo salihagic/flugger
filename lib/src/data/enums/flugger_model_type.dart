@@ -21,7 +21,8 @@ enum FluggerModelType {
       options.request.name_sufix,
       'Request',
     ].any(
-        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
+      (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()),
+    )) {
       return FluggerModelType.REQUEST;
     }
 
@@ -30,7 +31,8 @@ enum FluggerModelType {
       options.response.name_sufix,
       'Response',
     ].any(
-        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
+      (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()),
+    )) {
       return FluggerModelType.RESPONSE;
     }
 
@@ -39,7 +41,8 @@ enum FluggerModelType {
       options.search.name_sufix,
       'Search',
     ].any(
-        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
+      (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()),
+    )) {
       return FluggerModelType.SEARCH;
     }
 
@@ -48,7 +51,8 @@ enum FluggerModelType {
       options.model.name_sufix,
       'Model',
     ].any(
-        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
+      (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()),
+    )) {
       return FluggerModelType.MODEL;
     }
 
@@ -57,7 +61,8 @@ enum FluggerModelType {
       options.enums.name_sufix,
       'Enum',
     ].any(
-        (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()))) {
+      (x) => x.isNotEmpty && name.toLowerCase().contains(x.toLowerCase()),
+    )) {
       return FluggerModelType.ENUM;
     }
 

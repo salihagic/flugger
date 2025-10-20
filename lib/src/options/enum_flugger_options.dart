@@ -21,10 +21,10 @@ class EnumFluggerOptions {
 
   /// Default values for Enum options
   factory EnumFluggerOptions.initial() => EnumFluggerOptions(
-        name_sufix: '',
-        name_part_to_remove: '',
-        parent_folder_name: 'enums',
-      );
+    name_sufix: '',
+    name_part_to_remove: '',
+    parent_folder_name: 'enums',
+  );
 
   /// Parsing method used by this tool to parse the values from flugger.yaml file to strongly typed ModelFluggerOptions
   @override

@@ -22,8 +22,10 @@ Future<void> main(List<String> arguments) async {
 
 /// Loads Flugger Options from parent project's flugger.yaml file
 Future<FluggerOptions> loadOptions() async {
-  assert(await File('flugger.yaml').exists(),
-      'flugger.yaml options is missing from the root of the project');
+  assert(
+    await File('flugger.yaml').exists(),
+    'flugger.yaml options is missing from the root of the project',
+  );
 
   var yamlOptions = loadYaml(await File('flugger.yaml').readAsString());
 
@@ -34,9 +36,7 @@ Future<FluggerOptions> loadOptions() async {
 Future<FluggerOptions> loadOptionsForLocalTesting() async {
   return FluggerOptions(
     structure: FluggerStructureType.one_folder,
-    generic_imports: [
-      'package:officeconnect/extensions/extensions.dart',
-    ],
+    generic_imports: ['package:officeconnect/extensions/extensions.dart'],
     models_to_ignore: [],
     request: ModelFluggerOptions.initialRequest(),
     response: ModelFluggerOptions.initialResponse(),
@@ -65,14 +65,13 @@ SchemaRepository resolveSchemaRepository(FluggerOptions options) {
 }
 
 /// Resolves a file/s writer based on the specified Flugger structure type in flugger.yaml file in the parent project which uses flugger as it's tool in dev_dependencies
-FluggerWriter resolveWriter(FluggerOptions options) =>
-    switch (options.structure) {
-      FluggerStructureType.structured =>
-        StructuredFluggerWriter(options: options),
-      FluggerStructureType.one_file => OneFileFluggerWriter(options: options),
-      FluggerStructureType.one_folder =>
-        OneFolderFluggerWriter(options: options),
-    };
+FluggerWriter resolveWriter(
+  FluggerOptions options,
+) => switch (options.structure) {
+  FluggerStructureType.structured => StructuredFluggerWriter(options: options),
+  FluggerStructureType.one_file => OneFileFluggerWriter(options: options),
+  FluggerStructureType.one_folder => OneFolderFluggerWriter(options: options),
+};
 
 /// Resolves a logger based on configuration
 Logger resolveLogger(FluggerOptions options) =>

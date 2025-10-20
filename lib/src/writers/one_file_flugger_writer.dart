@@ -3,9 +3,7 @@ import 'package:flugger/flugger.dart';
 /// FluggerWriter implementation to write all the generated content into one output file
 /// [NOT IMPLEMENTED YET]
 class OneFileFluggerWriter extends FluggerWriter {
-  OneFileFluggerWriter({
-    required super.options,
-  });
+  OneFileFluggerWriter({required super.options});
 
   /// Starts the process of writting the file/folders
   @override

@@ -20,47 +20,57 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
   });
 
   @override
-  Future<List<FluggerModel>> get(
-      [List<String> modelsToIgnore = const []]) async {
+  Future<List<FluggerModel>> get([
+    List<String> modelsToIgnore = const [],
+  ]) async {
     final response = await dio.get(options.url ?? '');
 
-    final data =
-        response.data is String ? json.decode(response.data) : response.data;
+    final data = response.data is String
+        ? json.decode(response.data)
+        : response.data;
 
     return _parseModels(data['components']['schemas'], modelsToIgnore);
   }
 
   /// General swagger parse schema method
   Future<List<FluggerModel>> _parseModels(
-      Map<String, dynamic> data, List<String> modelsToIgnore) async {
+    Map<String, dynamic> data,
+    List<String> modelsToIgnore,
+  ) async {
     final models = data.entries
         .map<FluggerModel>((entry) {
           logger.log('PARSING MODEL', entry.key);
 
           return FluggerModel.fromJson(entry.key, entry.value, options, true);
         })
-        .where((x) => [
-              FluggerDataType.OBJECT,
-              FluggerDataType.ENUM,
-            ].contains(x.dataType))
+        .where(
+          (x) => [
+            FluggerDataType.OBJECT,
+            FluggerDataType.ENUM,
+          ].contains(x.dataType),
+        )
         .toList();
 
     _updateModelsReferences(models);
 
     return models
-        .where((model) =>
-            !modelsToIgnore.contains(model.transformedOriginalDataType))
+        .where(
+          (model) =>
+              !modelsToIgnore.contains(model.transformedOriginalDataType),
+        )
         .toList();
   }
 
   void _updateModelsReferences(List<FluggerModel> models) {
     final rootModels = models
-        .where((x) =>
-            x.root &&
-            [
-              FluggerDataType.OBJECT,
-              FluggerDataType.ENUM,
-            ].contains(x.dataType))
+        .where(
+          (x) =>
+              x.root &&
+              [
+                FluggerDataType.OBJECT,
+                FluggerDataType.ENUM,
+              ].contains(x.dataType),
+        )
         .toList();
 
     for (final model in models) {
@@ -69,18 +79,22 @@ class SwaggerRemoteSchemaRepository implements SchemaRepository {
   }
 
   void _updateModelReferences(
-      FluggerModel model, List<FluggerModel> rootModels) {
+    FluggerModel model,
+    List<FluggerModel> rootModels,
+  ) {
     if (model is ObjectFluggerModel) {
       for (final property in model.properties) {
         if (property is ReferenceFluggerModel) {
-          property.reference =
-              rootModels.firstWhere((x) => x.id == property.id);
+          property.reference = rootModels.firstWhere(
+            (x) => x.id == property.id,
+          );
         }
         if (property is ListFluggerModel &&
             property.templateDataType is ReferenceFluggerModel) {
           (property.templateDataType as ReferenceFluggerModel).reference =
-              rootModels
-                  .firstWhere((x) => x.id == property.templateDataType?.id);
+              rootModels.firstWhere(
+                (x) => x.id == property.templateDataType?.id,
+              );
         }
       }
     }

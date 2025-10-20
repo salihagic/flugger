@@ -27,35 +27,34 @@ class ObjectFluggerModel extends FluggerModel {
       modelType: FluggerModelType.parse(originalDataType, options),
       nullable: json['nullable'] ?? false,
       root: root,
-      properties: json['properties']?.entries.map<FluggerModel>(
-            (entry) {
-              return FluggerModel.fromJson(
-                json['type'] ??
-                    json['\$ref'].replaceAll('#/components/schemas/', ''),
-                entry.value,
-                options,
-                false,
-                entry.key,
-              );
-            },
-          ).toList() ??
+      properties:
+          json['properties']?.entries.map<FluggerModel>((entry) {
+            return FluggerModel.fromJson(
+              json['type'] ??
+                  json['\$ref'].replaceAll('#/components/schemas/', ''),
+              entry.value,
+              options,
+              false,
+              entry.key,
+            );
+          }).toList() ??
           [],
     );
   }
 
   @override
   String toString() => {
-        'id': id,
-        'originalDataType': originalDataType,
-        'dataType': dataType.value,
-        'nullable': nullable,
-        'root': root,
-        'properties': properties,
-        // 'originalDataTypeTree': originalDataTypeTree,
-        // 'namespace': namespace,
-        // 'fileName': fileName,
-        'transformedOriginalDataType': transformedOriginalDataType,
-      }.toString();
+    'id': id,
+    'originalDataType': originalDataType,
+    'dataType': dataType.value,
+    'nullable': nullable,
+    'root': root,
+    'properties': properties,
+    // 'originalDataTypeTree': originalDataTypeTree,
+    // 'namespace': namespace,
+    // 'fileName': fileName,
+    'transformedOriginalDataType': transformedOriginalDataType,
+  }.toString();
 
   String generateClassName() => transformedOriginalDataType;
 

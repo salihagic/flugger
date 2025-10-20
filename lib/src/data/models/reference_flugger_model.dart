@@ -33,25 +33,25 @@ class ReferenceFluggerModel extends FluggerModel {
       modelType: FluggerModelType.parse(originalDataType, options),
       nullable: json['nullable'] ?? false,
       root: root,
-      referenceOriginalName:
-          json['\$ref'].replaceAll('#/components/schemas/', ''),
+      referenceOriginalName: json['\$ref'].replaceAll(
+        '#/components/schemas/',
+        '',
+      ),
     );
   }
 
   @override
   String toString() => {
-        'id': id,
-        'originalDataType': originalDataType,
-        'dataType': dataType.value,
-        'nullable': nullable,
-        'root': root,
-        'referenceOriginalName': referenceOriginalName,
-        'reference': reference,
-      }.toString();
+    'id': id,
+    'originalDataType': originalDataType,
+    'dataType': dataType.value,
+    'nullable': nullable,
+    'root': root,
+    'referenceOriginalName': referenceOriginalName,
+    'reference': reference,
+  }.toString();
 
-  ReferenceFluggerModel copyWith({
-    FluggerModel? reference,
-  }) {
+  ReferenceFluggerModel copyWith({FluggerModel? reference}) {
     return ReferenceFluggerModel(
       originalDataType: originalDataType,
       dataType: dataType,

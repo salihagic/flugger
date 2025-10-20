@@ -42,13 +42,13 @@ class IntFluggerModel extends FluggerModel {
 
   @override
   String toString() => {
-        'originalDataType': originalDataType,
-        'dataType': dataType.value,
-        'nullable': nullable,
-        'root': root,
-        'minimum': minimum,
-        'maximum': maximum,
-        'exclusiveMinimum': exclusiveMinimum,
-        'exclusiveMaximum': exclusiveMaximum,
-      }.toString();
+    'originalDataType': originalDataType,
+    'dataType': dataType.value,
+    'nullable': nullable,
+    'root': root,
+    'minimum': minimum,
+    'maximum': maximum,
+    'exclusiveMinimum': exclusiveMinimum,
+    'exclusiveMaximum': exclusiveMaximum,
+  }.toString();
 }

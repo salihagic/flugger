@@ -71,10 +71,10 @@ class FluggerOptions {
       extensions_output_path: map['extensions_output_path'] ?? '',
       generic_imports:
           map['generic_imports']?.map<String>((x) => x as String).toList() ??
-              [],
+          [],
       models_to_ignore:
           map['models_to_ignore']?.map<String>((x) => x as String).toList() ??
-              [],
+          [],
       request: map['request'] != null
           ? ModelFluggerOptions.fromYamlMap(map['request'])
           : ModelFluggerOptions.initialRequest(),

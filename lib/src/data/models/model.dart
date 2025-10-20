@@ -15,12 +15,12 @@ class Model {
   final List<Model> properties;
 
   String get type => switch (dataType) {
-        FluggerDataType.OBJECT => dataTypeObjectType ?? 'Object',
-        FluggerDataType.LIST =>
-          'List<${templateDataTypeObjectType ?? templateDataType?.value ?? 'Object'}>',
-        FluggerDataType.ENUM => dataTypeObjectType ?? 'ENUM',
-        _ => dataType.value,
-      };
+    FluggerDataType.OBJECT => dataTypeObjectType ?? 'Object',
+    FluggerDataType.LIST =>
+      'List<${templateDataTypeObjectType ?? templateDataType?.value ?? 'Object'}>',
+    FluggerDataType.ENUM => dataTypeObjectType ?? 'ENUM',
+    _ => dataType.value,
+  };
 
   Model({
     required this.name,
@@ -45,35 +45,40 @@ class Model {
     FluggerModelType? pModelType,
   ]) {
     final dataType = FluggerDataType.fromJson(map);
-    final dataTypeObjectName =
-        map['\$ref']?.replaceAll('#/components/schemas/', '')?.split('.')?.last;
+    final dataTypeObjectName = map['\$ref']
+        ?.replaceAll('#/components/schemas/', '')
+        ?.split('.')
+        ?.last;
 
     final templateDataType =
         dataType == FluggerDataType.LIST && map['items'] != null
-            ? FluggerDataType.fromJson(map['items'])
-            : null;
+        ? FluggerDataType.fromJson(map['items'])
+        : null;
     final templateDataTypeObjectType =
         dataType == FluggerDataType.LIST && map['items']?['\$ref'] != null
-            ? map['items']['\$ref']
-                .replaceAll('#/components/schemas/', '')
-                ?.split('.')
-                ?.last
-            : null;
+        ? map['items']['\$ref']
+              .replaceAll('#/components/schemas/', '')
+              ?.split('.')
+              ?.last
+        : null;
 
     final modelType = pModelType ?? FluggerModelType.parse(name, options);
     final transformedDataTypeObjectType = dataType == FluggerDataType.OBJECT
         ? _transformName(dataTypeObjectName ?? 'Object', modelType, options)
         : dataType == FluggerDataType.ENUM
-            ? dataTypeObjectName
-            : null;
+        ? dataTypeObjectName
+        : null;
 
     final templateModelType = templateDataTypeObjectType != null
         ? FluggerModelType.parse(templateDataTypeObjectType, options)
         : modelType;
-    final transformedTemplateDataTypeObjectType = templateDataTypeObjectType !=
-            null
+    final transformedTemplateDataTypeObjectType =
+        templateDataTypeObjectType != null
         ? _transformName(
-            templateDataTypeObjectType ?? 'Object', templateModelType, options)
+            templateDataTypeObjectType ?? 'Object',
+            templateModelType,
+            options,
+          )
         : null;
 
     final nameTree = name.split('.');
@@ -81,8 +86,9 @@ class Model {
         ? _transformName(nameTree.last, modelType, options)
         : nameTree.last;
 
-    final namespace =
-        _toSnakeCase(nameTree.length >= 2 ? nameTree[nameTree.length - 2] : '');
+    final namespace = _toSnakeCase(
+      nameTree.length >= 2 ? nameTree[nameTree.length - 2] : '',
+    );
     final fileName = '${_toSnakeCase(transformedName)}.dart';
 
     return Model(
@@ -97,8 +103,8 @@ class Model {
       templateDataTypeObjectType: transformedTemplateDataTypeObjectType,
       modelType: modelType,
       nullable: map['nullable'] ?? false,
-      properties: map['properties']
-              ?.entries
+      properties:
+          map['properties']?.entries
               .map<Model>(
                 (entry) => Model.fromJson(
                   entry.key,
@@ -153,12 +159,14 @@ class Model {
 
   static String _toSnakeCase(String name) {
     final result = name.replaceAllMapped(
-        RegExp(r'[A-Z]'), (Match m) => '_${m[0]!.toLowerCase()}');
+      RegExp(r'[A-Z]'),
+      (Match m) => '_${m[0]!.toLowerCase()}',
+    );
 
     return result.startsWith('_')
         ? result.substring(1)
         : result.endsWith('_')
-            ? result.substring(0, result.length - 2)
-            : result;
+        ? result.substring(0, result.length - 2)
+        : result;
   }
 }

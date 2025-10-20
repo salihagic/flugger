@@ -26,9 +26,9 @@ enum FluggerStructureType {
 
   /// Parsing method used by this tool to parse the values from flugger.yaml file to strongly typed FluggerStructureType
   static FluggerStructureType parse(String? value) => switch (value) {
-        'structured' => FluggerStructureType.structured,
-        'one_file' => FluggerStructureType.one_file,
-        'one_folder' => FluggerStructureType.one_folder,
-        _ => FluggerStructureType.structured,
-      };
+    'structured' => FluggerStructureType.structured,
+    'one_file' => FluggerStructureType.one_file,
+    'one_folder' => FluggerStructureType.one_folder,
+    _ => FluggerStructureType.structured,
+  };
 }

@@ -61,18 +61,20 @@ class ModelFluggerGenerator implements FluggerGenerator {
     final imports = <String>[];
 
     if (modelOptions.fromJson ||
-        model.properties.any((x) =>
-            [
-              FluggerDataType.OBJECT,
-              FluggerDataType.REFERENCE,
-              FluggerDataType.ENUM,
-            ].contains(x.dataType) ||
-            (x is ListFluggerModel &&
-                [
-                  FluggerDataType.OBJECT,
-                  FluggerDataType.REFERENCE,
-                  FluggerDataType.ENUM,
-                ].contains(x.templateDataType?.dataType)))) {
+        model.properties.any(
+          (x) =>
+              [
+                FluggerDataType.OBJECT,
+                FluggerDataType.REFERENCE,
+                FluggerDataType.ENUM,
+              ].contains(x.dataType) ||
+              (x is ListFluggerModel &&
+                  [
+                    FluggerDataType.OBJECT,
+                    FluggerDataType.REFERENCE,
+                    FluggerDataType.ENUM,
+                  ].contains(x.templateDataType?.dataType)),
+        )) {
       for (final i in options.generic_imports) {
         imports.add('import \'$i\';\n');
       }

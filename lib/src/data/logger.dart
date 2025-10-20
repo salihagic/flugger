@@ -8,9 +8,7 @@ abstract class Logger {
 class LoggerImpl implements Logger {
   final FluggerOptions options;
 
-  LoggerImpl({
-    required this.options,
-  });
+  LoggerImpl({required this.options});
 
   @override
   void log([String prefix = '', String content = '']) {

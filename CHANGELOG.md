@@ -1,3 +1,6 @@
+## 1.0.0
+* Updated dependencies
+
 ## 0.1.11
 * Updated Enum parsing
 

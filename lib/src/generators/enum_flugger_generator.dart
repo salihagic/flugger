@@ -5,9 +5,7 @@ class EnumFluggerGenerator extends FluggerGenerator {
   /// Used to fetch specified generic imports to be generated in the resulting file's content
   final FluggerOptions options;
 
-  EnumFluggerGenerator({
-    required this.options,
-  });
+  EnumFluggerGenerator({required this.options});
 
   /// Main generator method that starts the content generation based on options and modelOptions
   @override
